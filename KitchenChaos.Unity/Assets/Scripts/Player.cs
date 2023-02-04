@@ -13,6 +13,11 @@ namespace KitchenChaosTutorial
         [SerializeField]
         private float mRotateSpeed;
 
+        /// <summary>
+        /// Whether the player is moving
+        /// </summary>
+        public bool IsWalking { private set; get; }
+
         private void Update()
         {
             Vector2 movementInput = new Vector2();
@@ -37,8 +42,10 @@ namespace KitchenChaosTutorial
             movementInput = movementInput.normalized;
 
             Vector3 movementDirection = new Vector3(movementInput.x, 0.0f, movementInput.y);
-            this.transform.position += movementDirection * this.mSpeed * Time.deltaTime;
 
+            this.IsWalking = movementDirection != Vector3.zero;
+
+            this.transform.position += movementDirection * this.mSpeed * Time.deltaTime;
             this.transform.forward = Vector3.Lerp(this.transform.forward, movementDirection, mRotateSpeed * Time.deltaTime);
         }
     }
