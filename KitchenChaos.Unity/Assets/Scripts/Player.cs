@@ -31,6 +31,22 @@ namespace KitchenChaosTutorial
         [SerializeField] private LayerMask mCountersLayerMask;
 
         /// <summary>
+        /// Event fired for selected counter changed
+        /// </summary>
+        public event EventHandler<SelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+
+        /// <summary>
+        /// A class to define the EventArgs fired on the <see cref="OnSelectedCounterChanged"/> event, where the <see cref="SelectedCounterChangedEventArgs.selectedCounter"/> reflects the newly selected counter
+        /// </summary>
+        public class SelectedCounterChangedEventArgs : EventArgs
+        {
+            /// <summary>
+            /// The newly selected counter the player chooses
+            /// </summary>
+            public ClearCounter selectedCounter;
+        }
+
+        /// <summary>
         /// Whether the player is moving
         /// </summary>
         public bool IsWalking { private set; get; }
@@ -91,18 +107,29 @@ namespace KitchenChaosTutorial
                 //if we hit an interactable, invoke its interact function
                 if (raycastHit.transform.TryGetComponent<ClearCounter>(out ClearCounter clearCounter))
                 {
-                    //do things
-                    this.mSelectedCounter = clearCounter;
+                    this.SetSelectedCounter(newSelectedCounter: clearCounter);
                 }
                 else
                 {
-                    this.mSelectedCounter = null;
+                    this.SetSelectedCounter(newSelectedCounter: null);
                 }
             }
             else
             {
-                this.mSelectedCounter = null;
+                this.SetSelectedCounter(newSelectedCounter: null);
             }
+        }
+
+        /// <summary>
+        /// A function to update the currently selected counter, ensuring an event with the corresponding <paramref name="newSelectedCounter"/> is fired on change.
+        /// </summary>
+        /// <param name="newSelectedCounter"></param>
+        private void SetSelectedCounter(ClearCounter newSelectedCounter)
+        {
+            this.mSelectedCounter = newSelectedCounter;
+            this.OnSelectedCounterChanged?.Invoke(sender: this, e: new SelectedCounterChangedEventArgs(){
+                selectedCounter = newSelectedCounter
+            });
         }
 
         /// <summary>
