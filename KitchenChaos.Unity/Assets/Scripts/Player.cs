@@ -6,7 +6,7 @@ using UnityEngine;
 namespace KitchenChaosTutorial
 {
 
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IKitchenObjectParent
     {
         /// <summary>
         /// The speed at which the player should move
@@ -29,6 +29,11 @@ namespace KitchenChaosTutorial
         /// The layermask associated to Counter gameobjects in the scene
         /// </summary>
         [SerializeField] private LayerMask mCountersLayerMask;
+
+        /// <summary>
+        /// A transform defining where KitchenObjects should be held when the player grabs one
+        /// </summary>
+        [SerializeField] private Transform mKitchenObjectHoldPoint;
 
         /// <summary>
         /// Event fired for selected counter changed
@@ -57,6 +62,11 @@ namespace KitchenChaosTutorial
         public static Player Instance { get; set; }
 
 
+        /// <summary>
+        /// The kitchen object associated to the player, if any. <br /> 
+        /// A kitchen object is associated to the player for the player is holding the kitchen object
+        /// </summary>
+        private KitchenObject mKitchenObject;
 
         /// <summary>
         /// The counter the player currently has selected
@@ -199,6 +209,36 @@ namespace KitchenChaosTutorial
 
             bool isPlayerObstructed = Physics.CapsuleCast(point1: this.transform.position, point2: this.transform.position + (Vector3.up * playerHeight), radius: playerRadius, direction: movementDirection, maxDistance: movementDistance);
             return isPlayerObstructed;
+        }
+
+        /// <inheritdoc/>
+        public Transform GetKitchenObjectFollowTransform()
+        {
+            return this.mKitchenObjectHoldPoint;
+        }
+
+        /// <inheritdoc/>
+        public void SetKitchenObject(KitchenObject newKitchenObject)
+        {
+            this.mKitchenObject = newKitchenObject;
+        }
+
+        /// <inheritdoc/>
+        public KitchenObject GetKitchenObject()
+        {
+            return this.mKitchenObject;
+        }
+
+        /// <inheritdoc/>
+        public void ClearKitchenObject()
+        {
+            this.mKitchenObject = null;
+        }
+
+        /// <inheritdoc/>
+        public bool HasKitchenObject()
+        {
+            return this.mKitchenObject != null;
         }
     }
 
