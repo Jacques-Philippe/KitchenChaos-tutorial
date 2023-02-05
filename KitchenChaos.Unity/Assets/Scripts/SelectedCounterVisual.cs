@@ -9,14 +9,14 @@ namespace KitchenChaosTutorial
     /// </summary>
     public class SelectedCounterVisual : MonoBehaviour
     {
-
+        [SerializeField] private GameObject mCounterVisual;
         private void Show()
         {
-            this.gameObject.SetActive(true);
+            this.mCounterVisual.SetActive(true);
         }
         private void Hide()
         {
-            this.gameObject.SetActive(false);
+            this.mCounterVisual.SetActive(false);
         }
     }
 
