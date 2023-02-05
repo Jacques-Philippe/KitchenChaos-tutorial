@@ -36,6 +36,11 @@ namespace KitchenChaosTutorial
         public bool IsWalking { private set; get; }
 
         /// <summary>
+        /// The counter the player currently has selected
+        /// </summary>
+        private ClearCounter mSelectedCounter;
+
+        /// <summary>
         /// A vector representation of the direction in which the last movement was.
         /// </summary>
         private Vector3 mLastInteractionDirection = new Vector3();
@@ -49,6 +54,7 @@ namespace KitchenChaosTutorial
         private void Update()
         {
             this.HandleMovement();
+            this.HandleInteraction();
         }
 
 
@@ -58,6 +64,15 @@ namespace KitchenChaosTutorial
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnInteraction(object sender, EventArgs e)
+        {
+            this.mSelectedCounter?.Interact();
+        }
+
+        /// <summary>
+        /// A function to handle interaction treatment given player input <br />
+        /// Sets the currently selected counter.
+        /// </summary>
+        private void HandleInteraction()
         {
             //Get movement direction to find relevant interactable
             Vector2 movementInput = mGameInput.GetPlayerMovementDirectionNormalized();
@@ -76,8 +91,17 @@ namespace KitchenChaosTutorial
                 //if we hit an interactable, invoke its interact function
                 if (raycastHit.transform.TryGetComponent<ClearCounter>(out ClearCounter clearCounter))
                 {
-                    clearCounter.Interact();
+                    //do things
+                    this.mSelectedCounter = clearCounter;
                 }
+                else
+                {
+                    this.mSelectedCounter = null;
+                }
+            }
+            else
+            {
+                this.mSelectedCounter = null;
             }
         }
 
