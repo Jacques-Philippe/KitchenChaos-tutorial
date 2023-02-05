@@ -7,11 +7,22 @@ namespace KitchenChaosTutorial
 
     public class Player : MonoBehaviour
     {
+        /// <summary>
+        /// The speed at which the player should move
+        /// </summary>
         [SerializeField]
         private float mSpeed;
 
+        /// <summary>
+        /// The speed at which the player should turn to face the direction in which they're moving
+        /// </summary>
         [SerializeField]
         private float mRotateSpeed;
+
+        /// <summary>
+        /// A reference to the GameInput instance
+        /// </summary>
+        [SerializeField] private GameInput mGameInput;
 
         /// <summary>
         /// Whether the player is moving
@@ -20,26 +31,7 @@ namespace KitchenChaosTutorial
 
         private void Update()
         {
-            Vector2 movementInput = new Vector2();
-            //Get legacy input
-            if (Input.GetKey(KeyCode.D))
-            {
-                movementInput.x = +1.0f;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                movementInput.x = -1.0f;
-            }
-            
-            if (Input.GetKey(KeyCode.W))
-            {
-                movementInput.y = +1.0f;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                movementInput.y = -1.0f;
-            }
-            movementInput = movementInput.normalized;
+            Vector2 movementInput = mGameInput.GetPlayerMovementDirectionNormalized();
 
             Vector3 movementDirection = new Vector3(movementInput.x, 0.0f, movementInput.y);
 
