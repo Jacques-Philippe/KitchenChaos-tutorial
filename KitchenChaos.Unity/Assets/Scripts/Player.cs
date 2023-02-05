@@ -52,6 +52,13 @@ namespace KitchenChaosTutorial
         public bool IsWalking { private set; get; }
 
         /// <summary>
+        /// The singleton instance of the player.
+        /// </summary>
+        public static Player Instance { get; set; }
+
+
+
+        /// <summary>
         /// The counter the player currently has selected
         /// </summary>
         private ClearCounter mSelectedCounter;
@@ -60,6 +67,15 @@ namespace KitchenChaosTutorial
         /// A vector representation of the direction in which the last movement was.
         /// </summary>
         private Vector3 mLastInteractionDirection = new Vector3();
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError("There exists more than one Player instance");
+            }
+            Instance = this;
+        }
 
         private void OnEnable()
         {

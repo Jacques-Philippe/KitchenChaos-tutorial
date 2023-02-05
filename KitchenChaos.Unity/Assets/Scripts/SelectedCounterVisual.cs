@@ -19,11 +19,10 @@ namespace KitchenChaosTutorial
         /// </summary>
         [SerializeField] private GameObject mCounterVisual;
 
-        [SerializeField] private Player mPlayer;
 
         private void Start()
         {
-            mPlayer.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
+            Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
         }
 
         /// <summary>
