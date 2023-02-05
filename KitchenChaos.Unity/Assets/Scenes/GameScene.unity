@@ -907,6 +907,12 @@ PrefabInstance:
       propertyPath: mPlayer
       value: 
       objectReference: {fileID: 1428431258}
+    - target: {fileID: 4582813493399428457, guid: e83e9b5ad4cadb64c8507763fadf4876,
+        type: 3}
+      propertyPath: mKitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: df05049b13c89da4bb0913160d08dbd2,
+        type: 2}
     - target: {fileID: 5603258410423072290, guid: e83e9b5ad4cadb64c8507763fadf4876,
         type: 3}
       propertyPath: m_Name
@@ -1020,6 +1026,12 @@ PrefabInstance:
       propertyPath: mPlayer
       value: 
       objectReference: {fileID: 1428431258}
+    - target: {fileID: 4582813493399428457, guid: e83e9b5ad4cadb64c8507763fadf4876,
+        type: 3}
+      propertyPath: mKitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 65028a98cb6ef0248ad50a756bf90be0,
+        type: 2}
     - target: {fileID: 5603258410423072290, guid: e83e9b5ad4cadb64c8507763fadf4876,
         type: 3}
       propertyPath: m_Name
