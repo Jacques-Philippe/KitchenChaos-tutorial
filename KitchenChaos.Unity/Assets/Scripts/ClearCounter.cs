@@ -32,20 +32,26 @@ namespace KitchenChaosTutorial
             {
                 //Given the kitchen game object is spawned and associated to this counter
                 //Transfer it to another counter
-                this.mKitchenObject.SetClearCounter(mSecondCounter);
+                this.mKitchenObject.setKitchenObjectParent(mSecondCounter);
             }
         }
 
-        public void Interact()
+        public void Interact(Player player)
         {
             Debug.Log("Interact!");
+            //if there is no kitchen object, spawn it
             if (this.mKitchenObject == null)
             {
                 GameObject kitchenGameObj = Instantiate(original: mKitchenObjectSO.Prefab);
                 if (kitchenGameObj.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
                 {
-                    kitchenObject.SetClearCounter(this);
+                    kitchenObject.setKitchenObjectParent(this);
                 }
+            }
+            //else if there is a kitchen object, give it to the player
+            else
+            {
+                this.mKitchenObject.setKitchenObjectParent(player);
             }
 
         }

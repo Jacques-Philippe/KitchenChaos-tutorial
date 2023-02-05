@@ -107,7 +107,7 @@ namespace KitchenChaosTutorial
         /// <param name="e"></param>
         private void OnInteraction(object sender, EventArgs e)
         {
-            this.mSelectedCounter?.Interact();
+            this.mSelectedCounter?.Interact(player: this);
         }
 
         /// <summary>
