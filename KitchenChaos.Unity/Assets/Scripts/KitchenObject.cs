@@ -26,7 +26,7 @@ namespace KitchenChaosTutorial
             if (this.mClearCounter != null)
             {
                 //Remove the kitchen object from that counter
-                this.mClearCounter.ClearKitchenObjectFromCounter();
+                this.mClearCounter.ClearKitchenObject();
                 //Remove the reference to the old counter
                 this.mClearCounter = null;
             }
@@ -35,7 +35,7 @@ namespace KitchenChaosTutorial
             //Update the kitchen object associated to the counter
             this.mClearCounter.SetKitchenObject(this);
             //Update the position of this kitchen object
-            this.transform.parent = this.mClearCounter.GetCounterTopPoint();
+            this.transform.parent = this.mClearCounter.GetKitchenObjectFollowTransform();
             this.transform.localPosition = Vector3.zero;
             
         }

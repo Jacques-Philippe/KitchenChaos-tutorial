@@ -5,7 +5,7 @@ using UnityEngine;
 namespace KitchenChaosTutorial
 {
 
-    public class ClearCounter : MonoBehaviour
+    public class ClearCounter : MonoBehaviour, IKitchenObjectParent
     {
         /// <summary>
         /// A reference to the <see cref="KitchenObjectSO"/> object which should drive this table's functionality
@@ -50,42 +50,31 @@ namespace KitchenChaosTutorial
 
         }
 
-        /// <summary>
-        /// A function to return the counter's top point transform
-        /// </summary>
-        /// <returns></returns>
-        public Transform GetCounterTopPoint()
+        /// <inheritdoc/>
+        public Transform GetKitchenObjectFollowTransform()
         {
             return this.mCounterTopPoint;
         }
 
-        /// <summary>
-        /// A function to set the kitchen object on this counter to the provided <paramref name="newKitchenObject"/>
-        /// </summary>
-        /// <param name="newKitchenObject"></param>
+        /// <inheritdoc/>
         public void SetKitchenObject(KitchenObject newKitchenObject)
         {
             this.mKitchenObject = newKitchenObject;
         }
 
-        /// <summary>
-        /// A function to get the kitchen object on this counter
-        /// </summary>
-        /// <param name="newKitchenObject"></param>
+        /// <inheritdoc/>
         public KitchenObject GetKitchenObject()
         {
             return this.mKitchenObject;
         }
 
-        public void ClearKitchenObjectFromCounter()
+        /// <inheritdoc/>
+        public void ClearKitchenObject()
         {
             this.mKitchenObject = null;
         }
 
-        /// <summary>
-        /// Whether there is currently a kitchen object on this counter
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public bool HasKitchenObject()
         {
             return this.mKitchenObject != null;
