@@ -15,7 +15,7 @@ namespace KitchenChaosTutorial
         private ClearCounter mClearCounter;
 
         /// <summary>
-        /// A function to update a Kitchen object's <see cref="mClearCounter"/>, where changing the counter also changes this kitchen object's position
+        /// A function to update a Kitchen object's <see cref="mClearCounter"/>, where changing the counter also changes this kitchen object's position with respect to the clear counter's counter top point.
         /// </summary>
         /// <param name="newClearCounter"></param>
         public void SetClearCounter(ClearCounter newClearCounter)
@@ -31,8 +31,12 @@ namespace KitchenChaosTutorial
                 this.mClearCounter = null;
             }
             //Update the counter associated to this kitchen object
-            this.mClearCounter = newClearCounter; 
+            this.mClearCounter = newClearCounter;
+            //Update the kitchen object associated to the counter
+            this.mClearCounter.SetKitchenObject(this);
             //Update the position of this kitchen object
+            this.transform.parent = this.mClearCounter.GetCounterTopPoint();
+            this.transform.localPosition = Vector3.zero;
             
         }
     }
