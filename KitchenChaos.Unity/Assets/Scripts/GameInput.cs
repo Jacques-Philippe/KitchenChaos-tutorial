@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,23 @@ namespace KitchenChaosTutorial
     {
         private PlayerInputActions playerInputActions;
 
+        public event EventHandler OnInteract;
+
         private void Awake()
         {
             playerInputActions = new PlayerInputActions();
             playerInputActions.Player.Enable();
+
+            playerInputActions.Player.Interact.performed += Interact_performed;
+        }
+
+        /// <summary>
+        /// Function invoked for Interact playeraction performed
+        /// </summary>
+        /// <param name="obj"></param>
+        private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            this.OnInteract?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
