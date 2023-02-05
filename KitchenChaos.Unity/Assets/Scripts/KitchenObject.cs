@@ -12,30 +12,30 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// The counter to which the kitchen object is associated to
         /// </summary>
-        private ClearCounter mClearCounter;
+        private IKitchenObjectParent mKitchenObjectParent;
 
         /// <summary>
-        /// A function to update a Kitchen object's <see cref="mClearCounter"/>, where changing the counter also changes this kitchen object's position with respect to the clear counter's counter top point.
+        /// A function to update a Kitchen object's <see cref="mKitchenObjectParent"/>, where changing the counter also changes this kitchen object's position with respect to the clear counter's counter top point.
         /// </summary>
-        /// <param name="newClearCounter"></param>
-        public void SetClearCounter(ClearCounter newClearCounter)
+        /// <param name="newParent"></param>
+        public void setKitchenObjectParent(IKitchenObjectParent newParent)
         {
             //Update the new counter
 
             //if there exists already a counter
-            if (this.mClearCounter != null)
+            if (this.mKitchenObjectParent != null)
             {
                 //Remove the kitchen object from that counter
-                this.mClearCounter.ClearKitchenObject();
+                this.mKitchenObjectParent.ClearKitchenObject();
                 //Remove the reference to the old counter
-                this.mClearCounter = null;
+                this.mKitchenObjectParent = null;
             }
             //Update the counter associated to this kitchen object
-            this.mClearCounter = newClearCounter;
+            this.mKitchenObjectParent = newParent;
             //Update the kitchen object associated to the counter
-            this.mClearCounter.SetKitchenObject(this);
+            this.mKitchenObjectParent.SetKitchenObject(this);
             //Update the position of this kitchen object
-            this.transform.parent = this.mClearCounter.GetKitchenObjectFollowTransform();
+            this.transform.parent = this.mKitchenObjectParent.GetKitchenObjectFollowTransform();
             this.transform.localPosition = Vector3.zero;
             
         }
