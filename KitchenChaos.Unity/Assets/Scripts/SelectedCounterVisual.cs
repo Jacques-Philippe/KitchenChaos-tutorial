@@ -17,7 +17,7 @@ namespace KitchenChaosTutorial
         /// The gameobject used to display the selected counter. <br />
         /// We expect this gameobject to be displayed for counter selected, and hidden for counter unselected.
         /// </summary>
-        [SerializeField] private GameObject mCounterVisual;
+        [SerializeField] private GameObject[] mCounterVisual;
 
 
         private void Start()
@@ -47,14 +47,20 @@ namespace KitchenChaosTutorial
         /// </summary>
         private void DisplayAsSelected()
         {
-            this.mCounterVisual.SetActive(true);
+            foreach(var item in mCounterVisual)
+            {
+                item.SetActive(true);
+            }
         }
         /// <summary>
         /// Helper function to show the counter as unselected
         /// </summary>
         private void DisplayAsUnselected()
         {
-            this.mCounterVisual.SetActive(false);
+            foreach (var item in mCounterVisual)
+            {
+                item.SetActive(false);
+            }
         }
     }
 
