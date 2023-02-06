@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace KitchenChaosTutorial
         /// </summary>
         [SerializeField] private KitchenObjectSO mKitchenObjectSO;
 
+        public event EventHandler ContainerOpened;
 
         public override void Interact(Player player)
         {
@@ -24,6 +26,7 @@ namespace KitchenChaosTutorial
                 if (kitchenGameObj.TryGetComponent<KitchenObject>(out KitchenObject _kitchenObject))
                 {
                     _kitchenObject.setKitchenObjectParent(this);
+                    this.ContainerOpened?.Invoke(sender: this, e: EventArgs.Empty);
                 }
             }
             else if (counterKitchenObject == null && playerKitchenObject != null)
