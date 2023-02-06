@@ -193,8 +193,11 @@ namespace KitchenChaosTutorial
 
             this.IsWalking = movementDirection != Vector3.zero;
 
-            this.transform.position += movementDirection * movementDistance;
-            this.transform.forward = Vector3.Lerp(this.transform.forward, faceDirection, mRotateSpeed * Time.deltaTime);
+            if (movementDirection!= Vector3.zero)
+            {
+                this.transform.position += movementDirection * movementDistance;
+                this.transform.forward = Vector3.Lerp(this.transform.forward, faceDirection, mRotateSpeed * Time.deltaTime);
+            }
         }
 
         /// <summary>
