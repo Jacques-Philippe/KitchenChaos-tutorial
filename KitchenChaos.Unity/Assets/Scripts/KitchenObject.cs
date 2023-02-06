@@ -37,7 +37,12 @@ namespace KitchenChaosTutorial
             //Update the position of this kitchen object
             this.transform.parent = this.mKitchenObjectParent.GetKitchenObjectFollowTransform();
             this.transform.localPosition = Vector3.zero;
-            
+        }
+
+        public void DestroySelf()
+        {
+            this.mKitchenObjectParent.ClearKitchenObject();
+            GameObject.Destroy(this.gameObject);
         }
     }
 }
