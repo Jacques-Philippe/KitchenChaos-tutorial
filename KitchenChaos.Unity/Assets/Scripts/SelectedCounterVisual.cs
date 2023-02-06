@@ -12,7 +12,7 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// A reference to the <see cref="ClearCounter"/> this <see cref="SelectedCounterVisual"/> is a child of
         /// </summary>
-        [SerializeField] private ClearCounter mClearCounter;
+        [SerializeField] private BaseCounter mCounter;
         /// <summary>
         /// The gameobject used to display the selected counter. <br />
         /// We expect this gameobject to be displayed for counter selected, and hidden for counter unselected.
@@ -32,7 +32,7 @@ namespace KitchenChaosTutorial
         /// <param name="e"></param>
         private void Player_OnSelectedCounterChanged(object sender, Player.SelectedCounterChangedEventArgs e)
         {
-            if (e.selectedCounter == this.mClearCounter)
+            if (e.selectedCounter == this.mCounter)
             {
                 this.DisplayAsSelected();
             }

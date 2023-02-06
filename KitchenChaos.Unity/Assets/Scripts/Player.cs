@@ -48,7 +48,7 @@ namespace KitchenChaosTutorial
             /// <summary>
             /// The newly selected counter the player chooses
             /// </summary>
-            public ClearCounter selectedCounter;
+            public BaseCounter selectedCounter;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// The counter the player currently has selected
         /// </summary>
-        private ClearCounter mSelectedCounter;
+        private BaseCounter mSelectedCounter;
 
         /// <summary>
         /// A vector representation of the direction in which the last movement was.
@@ -131,9 +131,9 @@ namespace KitchenChaosTutorial
             if (Physics.Raycast(origin: this.transform.position, direction: mLastInteractionDirection, maxDistance: interactionRange, hitInfo: out RaycastHit raycastHit, layerMask: mCountersLayerMask))
             {
                 //if we hit an interactable, invoke its interact function
-                if (raycastHit.transform.TryGetComponent<ClearCounter>(out ClearCounter clearCounter))
+                if (raycastHit.transform.TryGetComponent<BaseCounter>(out BaseCounter counter))
                 {
-                    this.SetSelectedCounter(newSelectedCounter: clearCounter);
+                    this.SetSelectedCounter(newSelectedCounter: counter);
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace KitchenChaosTutorial
         /// A function to update the currently selected counter, ensuring an event with the corresponding <paramref name="newSelectedCounter"/> is fired on change.
         /// </summary>
         /// <param name="newSelectedCounter"></param>
-        private void SetSelectedCounter(ClearCounter newSelectedCounter)
+        private void SetSelectedCounter(BaseCounter newSelectedCounter)
         {
             this.mSelectedCounter = newSelectedCounter;
             this.OnSelectedCounterChanged?.Invoke(sender: this, e: new SelectedCounterChangedEventArgs(){

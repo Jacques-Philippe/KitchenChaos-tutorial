@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e648b3f7bca1e1d4e983a368d2640e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mClearCounter: {fileID: 0}
+  mCounter: {fileID: 1167378371740406523}
   mCounterVisual: {fileID: 3777391184772252747}
 --- !u!1001 &5123289291037452404
 PrefabInstance:
@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 6130463970083324966, guid: ed31e424e7a24034696f27aa840b50db,
         type: 3}
       propertyPath: m_Name
-      value: ClearCounter 1
+      value: ClearCounter
       objectReference: {fileID: 0}
     - target: {fileID: 6130463970083324967, guid: ed31e424e7a24034696f27aa840b50db,
         type: 3}
@@ -227,10 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec6f3616f2fcfb489ad3c1d2c38ab2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mKitchenObjectSO: {fileID: 0}
   mCounterTopPoint: {fileID: 8322555555745282245}
-  mTesting: 0
-  mSecondCounter: {fileID: 0}
+  mKitchenObjectSO: {fileID: 0}
 --- !u!4 &1299953659668098131 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6130463970083324967, guid: ed31e424e7a24034696f27aa840b50db,
