@@ -105,12 +105,12 @@ PrefabInstance:
     - target: {fileID: 102550813385737453, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 353237590725857035, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2298542010046885598, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
@@ -202,6 +202,16 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5850129231471598083, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -215,12 +225,12 @@ PrefabInstance:
     - target: {fileID: 7816906318471787887, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8143070647044102886, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8609693441769329850, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
