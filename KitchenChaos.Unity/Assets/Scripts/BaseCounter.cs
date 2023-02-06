@@ -17,6 +17,11 @@ namespace KitchenChaosTutorial
         /// <param name="player"></param>
         public abstract void Interact(Player player);
 
+        public virtual void AlternateInteract()
+        {
+            //do something
+        }
+
         /// <inheritdoc/>
         public void ClearKitchenObject()
         {
