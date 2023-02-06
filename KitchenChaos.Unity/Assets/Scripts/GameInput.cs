@@ -10,7 +10,15 @@ namespace KitchenChaosTutorial
     {
         private PlayerInputActions playerInputActions;
 
+        /// <summary>
+        /// Event fired on player pressed the Interact input
+        /// </summary>
         public event EventHandler OnInteract;
+
+        /// <summary>
+        /// Event fired on player pressed the Alt Interact input
+        /// </summary>
+        public event EventHandler OnAltInteract;
 
         private void Awake()
         {
@@ -18,6 +26,16 @@ namespace KitchenChaosTutorial
             playerInputActions.Player.Enable();
 
             playerInputActions.Player.Interact.performed += Interact_performed;
+            playerInputActions.Player.AltInteract.performed += AltInteract_performed;
+        }
+
+        /// <summary>
+        /// Function invoked for Alt Interact playeraction performed
+        /// </summary>
+        /// <param name="obj"></param>
+        private void AltInteract_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            this.OnAltInteract?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

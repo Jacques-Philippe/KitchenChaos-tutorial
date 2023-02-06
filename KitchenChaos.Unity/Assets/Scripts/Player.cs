@@ -90,6 +90,7 @@ namespace KitchenChaosTutorial
         private void OnEnable()
         {
             mGameInput.OnInteract += OnInteraction;
+            mGameInput.OnAltInteract += OnAltInteract;
         }
 
 
@@ -108,6 +109,12 @@ namespace KitchenChaosTutorial
         private void OnInteraction(object sender, EventArgs e)
         {
             this.mSelectedCounter?.Interact(player: this);
+        }
+
+
+        private void OnAltInteract(object sender, EventArgs e)
+        {
+            this.mSelectedCounter?.AlternateInteract(player: this);
         }
 
         /// <summary>
