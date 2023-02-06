@@ -25,7 +25,7 @@ namespace KitchenChaosTutorial
                 GameObject kitchenGameObj = Instantiate(original: mKitchenObjectSO.Prefab);
                 if (kitchenGameObj.TryGetComponent<KitchenObject>(out KitchenObject _kitchenObject))
                 {
-                    _kitchenObject.setKitchenObjectParent(this);
+                    _kitchenObject.setKitchenObjectParent(player);
                     this.ContainerOpened?.Invoke(sender: this, e: EventArgs.Empty);
                 }
             }
