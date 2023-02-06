@@ -166,6 +166,8 @@ namespace KitchenChaosTutorial
             Vector2 movementInput = mGameInput.GetPlayerMovementDirectionNormalized();
 
             Vector3 movementDirection = new Vector3(movementInput.x, 0.0f, movementInput.y);
+            Vector3 faceDirection = movementDirection;
+
             float movementDistance = this.mSpeed * Time.deltaTime;
 
             if (IsPlayerMovementObstructed(movementDirection: movementDirection, movementDistance: movementDistance))
@@ -192,7 +194,7 @@ namespace KitchenChaosTutorial
             this.IsWalking = movementDirection != Vector3.zero;
 
             this.transform.position += movementDirection * movementDistance;
-            this.transform.forward = Vector3.Lerp(this.transform.forward, movementDirection, mRotateSpeed * Time.deltaTime);
+            this.transform.forward = Vector3.Lerp(this.transform.forward, faceDirection, mRotateSpeed * Time.deltaTime);
         }
 
         /// <summary>

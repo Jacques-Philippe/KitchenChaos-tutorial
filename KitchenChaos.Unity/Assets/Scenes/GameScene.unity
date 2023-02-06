@@ -657,7 +657,7 @@ PrefabInstance:
     - target: {fileID: 1299953659668098131, guid: 052919135836b714bbd9e800a562255c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1299953659668098131, guid: 052919135836b714bbd9e800a562255c,
         type: 3}
@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mSpeed: 7
-  mRotateSpeed: 12
+  mRotateSpeed: 15
   mGameInput: {fileID: 926085108}
   mCountersLayerMask:
     serializedVersion: 2
@@ -1431,7 +1431,7 @@ PrefabInstance:
     - target: {fileID: 1299953659668098131, guid: 052919135836b714bbd9e800a562255c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1299953659668098131, guid: 052919135836b714bbd9e800a562255c,
         type: 3}
@@ -1669,7 +1669,7 @@ PrefabInstance:
     - target: {fileID: 8773767856833932933, guid: ab98efa7d52cb154cbbcf39e94505528,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8773767856833932933, guid: ab98efa7d52cb154cbbcf39e94505528,
         type: 3}
