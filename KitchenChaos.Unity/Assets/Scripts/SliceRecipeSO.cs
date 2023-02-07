@@ -18,5 +18,10 @@ namespace KitchenChaosTutorial
         /// The outgoing KitchenObjectSO (we expect this to be a sliced version of the input)
         /// </summary>
         public KitchenObjectSO output;
+
+        /// <summary>
+        /// The number of cuts required for the input to be sliced into output
+        /// </summary>
+        public int maxCuts;
     }
 }

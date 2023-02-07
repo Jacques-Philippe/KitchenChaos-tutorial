@@ -17,6 +17,10 @@ namespace KitchenChaosTutorial
         /// <param name="player"></param>
         public abstract void Interact(Player player);
 
+        /// <summary>
+        /// An alternate interaction function to be defined, where appropriate (it's not obligated)
+        /// </summary>
+        /// <param name="player"></param>
         public virtual void AlternateInteract(Player player)
         {
             //do something

@@ -12,6 +12,13 @@ namespace KitchenChaosTutorial
         /// </summary>
         [SerializeField] private SliceRecipeSO[] mSliceRecipeSOs;
 
+        /// <summary>
+        /// The number of cuts performed so far. <br />
+        /// For the number of cuts equal to the total number of cuts associated to the <see cref="SliceRecipeSO"/>, the input <see cref="KitchenObject"/> should be transformed into the <see cref="SliceRecipeSO"/> output.
+        /// </summary>
+        private int mCuts;
+
+        /// <inheritdoc/>
         public override void Interact(Player player)
         {
             KitchenObject counterKitchenObject = this.GetKitchenObject();
@@ -24,6 +31,7 @@ namespace KitchenChaosTutorial
                 {
                     //place the kitchen object on the cutting counter
                     playerKitchenObject.setKitchenObjectParent(this);
+                    this.mCuts = 0;
                 }
             }
             //else if there is a kitchen object on the counter and the player doesn't have a kitchen object, give it to the player
@@ -33,18 +41,22 @@ namespace KitchenChaosTutorial
             }
         }
 
+        /// <inheritdoc/>
         public override void AlternateInteract(Player player)
         {
             KitchenObject counterKitchenObject = this.GetKitchenObject();
             //if there is a kitchen object on the counter
             if (counterKitchenObject != null)
             {
-                KitchenObjectSO output = this.GetKitchenObjectOutputForInput(inputKitchenObjectSO: counterKitchenObject.GetKitchenObjectSO());
-                if (output != null)
+                this.mCuts++;
+               
+                SliceRecipeSO recipe = this.GetSliceRecipeForKitchenObjectInput(inputKitchenObjectSO: counterKitchenObject.GetKitchenObjectSO());
+
+                if (recipe != null && this.mCuts >= recipe.maxCuts)
                 {
                     counterKitchenObject.DestroySelf();
                     //slice it
-                    GameObject slicedGameObject = Instantiate(original: output.Prefab);
+                    GameObject slicedGameObject = Instantiate(original: recipe.output.Prefab);
                     if (slicedGameObject.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
                     {
                         kitchenObject.setKitchenObjectParent(this);
@@ -60,8 +72,8 @@ namespace KitchenChaosTutorial
         /// <returns></returns>
         private bool HasASliceRecipe(KitchenObject kitchenObject)
         {
-            KitchenObjectSO output = this.GetKitchenObjectOutputForInput(inputKitchenObjectSO: kitchenObject.GetKitchenObjectSO());
-            return output != null;
+            SliceRecipeSO recipe = this.GetSliceRecipeForKitchenObjectInput(inputKitchenObjectSO: kitchenObject.GetKitchenObjectSO());
+            return recipe != null;
         }
 
         /// <summary>
@@ -69,13 +81,13 @@ namespace KitchenChaosTutorial
         /// </summary>
         /// <param name="inputKitchenObjectSO"></param>
         /// <returns></returns>
-        private KitchenObjectSO GetKitchenObjectOutputForInput(KitchenObjectSO inputKitchenObjectSO)
+        private SliceRecipeSO GetSliceRecipeForKitchenObjectInput(KitchenObjectSO inputKitchenObjectSO)
         {
             foreach(var sliceRecipe in this.mSliceRecipeSOs)
             {
                 if (sliceRecipe.input == inputKitchenObjectSO)
                 {
-                    return sliceRecipe.output;
+                    return sliceRecipe;
                 }
             }
             return null;
