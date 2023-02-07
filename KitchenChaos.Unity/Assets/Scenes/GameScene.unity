@@ -1827,35 +1827,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CuttingCounter
       objectReference: {fileID: 0}
-    - target: {fileID: 7368423210476222917, guid: fcb462ca80bd62845bd60d9694df4eba,
-        type: 3}
-      propertyPath: mKitchenObjectSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 77e44abc7c856d040b31f9f829e89525,
-        type: 2}
-    - target: {fileID: 7368423210476222917, guid: fcb462ca80bd62845bd60d9694df4eba,
-        type: 3}
-      propertyPath: mSliceRecipesSO.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7368423210476222917, guid: fcb462ca80bd62845bd60d9694df4eba,
-        type: 3}
-      propertyPath: mSliceRecipesSO.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 235e72f9f10ee6b439dcd3fe6b0a1eeb,
-        type: 2}
-    - target: {fileID: 7368423210476222917, guid: fcb462ca80bd62845bd60d9694df4eba,
-        type: 3}
-      propertyPath: mSliceRecipesSO.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: a499b5cb4cbb02048810d0c915a11b3a,
-        type: 2}
-    - target: {fileID: 7368423210476222917, guid: fcb462ca80bd62845bd60d9694df4eba,
-        type: 3}
-      propertyPath: mSliceRecipesSO.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9a00fcead7099b846b341d2c7b001091,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcb462ca80bd62845bd60d9694df4eba, type: 3}
 --- !u!4 &1806075626 stripped

@@ -100,6 +100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mCounterTopPoint: {fileID: 4584730228221416702}
+  mSliceRecipeSOs:
+  - {fileID: 11400000, guid: 235e72f9f10ee6b439dcd3fe6b0a1eeb, type: 2}
+  - {fileID: 11400000, guid: a499b5cb4cbb02048810d0c915a11b3a, type: 2}
+  - {fileID: 11400000, guid: 9a00fcead7099b846b341d2c7b001091, type: 2}
 --- !u!1001 &4284827348565964701
 PrefabInstance:
   m_ObjectHideFlags: 0
