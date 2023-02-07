@@ -7,7 +7,7 @@ namespace KitchenChaosTutorial
 
     public class CuttingCounter : BaseCounter
     {
-        [SerializeField] private KitchenObjectSO mKitchenObjectSO;
+        [SerializeField] private SliceRecipeSO[] mSliceRecipesSO;
 
         public override void Interact(Player player)
         {
@@ -31,14 +31,32 @@ namespace KitchenChaosTutorial
             //if there is a kitchen object on the counter
             if (counterKitchenObject != null)
             {
+                KitchenObjectSO output = this.GetKitchenObjectOutputForInput(inputKitchenObjectSO: counterKitchenObject.GetKitchenObjectSO());
                 counterKitchenObject.DestroySelf();
                 //slice it
-                GameObject slicedGameObject = Instantiate(original: mKitchenObjectSO.Prefab);
+                GameObject slicedGameObject = Instantiate(original: output.Prefab);
                 if (slicedGameObject.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
                 {
                     kitchenObject.setKitchenObjectParent(this);
                 }
             }
+        }
+
+        /// <summary>
+        /// Given our <see cref="mSliceRecipesSO"/>, return the output <see cref="KitchenObjectSO"/> for the given input <see cref="KitchenObjectSO"/>
+        /// </summary>
+        /// <param name="inputKitchenObjectSO"></param>
+        /// <returns></returns>
+        private KitchenObjectSO GetKitchenObjectOutputForInput(KitchenObjectSO inputKitchenObjectSO)
+        {
+            foreach(var sliceRecipe in this.mSliceRecipesSO)
+            {
+                if (sliceRecipe.input == inputKitchenObjectSO)
+                {
+                    return sliceRecipe.output;
+                }
+            }
+            return null;
         }
     }
 

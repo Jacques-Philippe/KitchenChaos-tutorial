@@ -44,5 +44,10 @@ namespace KitchenChaosTutorial
             this.mKitchenObjectParent.ClearKitchenObject();
             GameObject.Destroy(this.gameObject);
         }
+
+        public KitchenObjectSO GetKitchenObjectSO()
+        {
+            return this.mKitchenObjectSO;
+        }
     }
 }
