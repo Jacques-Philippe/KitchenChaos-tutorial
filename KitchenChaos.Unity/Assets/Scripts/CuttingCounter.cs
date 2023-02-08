@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,14 @@ namespace KitchenChaosTutorial
         /// A list of all items for which there is a slice recipe
         /// </summary>
         [SerializeField] private SliceRecipeSO[] mSliceRecipeSOs;
+
+        public event EventHandler OnCut;
+        public event EventHandler<CutChangedEventArgs> OnCutProgressChanged;
+        public class CutChangedEventArgs : EventArgs
+        {
+            public float percentage;
+        }
+        
 
         /// <summary>
         /// The number of cuts performed so far. <br />
@@ -32,6 +41,7 @@ namespace KitchenChaosTutorial
                     //place the kitchen object on the cutting counter
                     playerKitchenObject.setKitchenObjectParent(this);
                     this.mCuts = 0;
+                    this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = 0.0f });
                 }
             }
             //else if there is a kitchen object on the counter and the player doesn't have a kitchen object, give it to the player
@@ -48,18 +58,24 @@ namespace KitchenChaosTutorial
             //if there is a kitchen object on the counter
             if (counterKitchenObject != null)
             {
-                this.mCuts++;
-               
-                SliceRecipeSO recipe = this.GetSliceRecipeForKitchenObjectInput(inputKitchenObjectSO: counterKitchenObject.GetKitchenObjectSO());
-
-                if (recipe != null && this.mCuts >= recipe.maxCuts)
+                //given the associated slice recipe...
+                if (this.TryGetSliceRecipeForKitchenObjectInput(inputKitchenObjectSO: counterKitchenObject.GetKitchenObjectSO(), out SliceRecipeSO sliceRecipe))
                 {
-                    counterKitchenObject.DestroySelf();
-                    //slice it
-                    GameObject slicedGameObject = Instantiate(original: recipe.output.Prefab);
-                    if (slicedGameObject.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
+                    this.mCuts++;
+
+                    float percentage = (float)this.mCuts / sliceRecipe.maxCuts;
+                    
+                    this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = percentage });
+
+                    if (this.mCuts >= sliceRecipe.maxCuts)
                     {
-                        kitchenObject.setKitchenObjectParent(this);
+                        counterKitchenObject.DestroySelf();
+                        //slice it
+                        GameObject slicedGameObject = Instantiate(original: sliceRecipe.output.Prefab);
+                        if (slicedGameObject.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
+                        {
+                            kitchenObject.setKitchenObjectParent(this);
+                        }
                     }
                 }
             }
@@ -72,8 +88,7 @@ namespace KitchenChaosTutorial
         /// <returns></returns>
         private bool HasASliceRecipe(KitchenObject kitchenObject)
         {
-            SliceRecipeSO recipe = this.GetSliceRecipeForKitchenObjectInput(inputKitchenObjectSO: kitchenObject.GetKitchenObjectSO());
-            return recipe != null;
+            return this.TryGetSliceRecipeForKitchenObjectInput(inputKitchenObjectSO: kitchenObject.GetKitchenObjectSO(), out SliceRecipeSO sliceRecipe);
         }
 
         /// <summary>
@@ -81,16 +96,18 @@ namespace KitchenChaosTutorial
         /// </summary>
         /// <param name="inputKitchenObjectSO"></param>
         /// <returns></returns>
-        private SliceRecipeSO GetSliceRecipeForKitchenObjectInput(KitchenObjectSO inputKitchenObjectSO)
+        private bool TryGetSliceRecipeForKitchenObjectInput(KitchenObjectSO inputKitchenObjectSO, out SliceRecipeSO sliceRecipe)
         {
-            foreach(var sliceRecipe in this.mSliceRecipeSOs)
+            sliceRecipe = null;
+            foreach (var recipe in this.mSliceRecipeSOs)
             {
-                if (sliceRecipe.input == inputKitchenObjectSO)
+                if (recipe.input == inputKitchenObjectSO)
                 {
-                    return sliceRecipe;
+                    sliceRecipe = recipe;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
     }
 
