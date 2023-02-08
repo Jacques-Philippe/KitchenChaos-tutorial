@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1.2, y: 0.25}
+  m_SizeDelta: {x: 1.2, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1950089808704375147
 CanvasRenderer:
@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4359541619746050269}
   - component: {fileID: 254513042913855070}
   - component: {fileID: 5648835261876084781}
+  - component: {fileID: 4436318312481493119}
   m_Layer: 6
   m_Name: ProgressBarUI
   m_TagString: Untagged
@@ -209,6 +210,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mCuttingCounter: {fileID: 7368423210476222917}
   mFill: {fileID: 5447607020365597917}
+--- !u!114 &4436318312481493119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4502521974953818629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92544df4b21e96949a01dbc00ce999cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 2
 --- !u!1 &8066040892554460592
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +259,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1.2, y: 0.25}
+  m_SizeDelta: {x: 1.2, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2363234607370885838
 CanvasRenderer:
