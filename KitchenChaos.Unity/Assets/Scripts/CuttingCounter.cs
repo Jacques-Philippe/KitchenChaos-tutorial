@@ -13,6 +13,9 @@ namespace KitchenChaosTutorial
         /// </summary>
         [SerializeField] private SliceRecipeSO[] mSliceRecipeSOs;
 
+        /// <summary>
+        /// Event fired 
+        /// </summary>
         public event EventHandler OnCut;
         public event EventHandler<CutChangedEventArgs> OnCutProgressChanged;
         public class CutChangedEventArgs : EventArgs
@@ -40,6 +43,7 @@ namespace KitchenChaosTutorial
                 {
                     //place the kitchen object on the cutting counter
                     playerKitchenObject.setKitchenObjectParent(this);
+
                     this.mCuts = 0;
                     this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = 0.0f });
                 }
@@ -48,7 +52,11 @@ namespace KitchenChaosTutorial
             else if (counterKitchenObject != null && playerKitchenObject == null)
             {
                 counterKitchenObject.setKitchenObjectParent(player);
+
+                this.mCuts = 0;
+                this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = 0.0f });
             }
+
         }
 
         /// <inheritdoc/>
@@ -66,6 +74,7 @@ namespace KitchenChaosTutorial
                     float percentage = (float)this.mCuts / sliceRecipe.maxCuts;
                     
                     this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = percentage });
+                    this.OnCut?.Invoke(sender: this, e: EventArgs.Empty);
 
                     if (this.mCuts >= sliceRecipe.maxCuts)
                     {
