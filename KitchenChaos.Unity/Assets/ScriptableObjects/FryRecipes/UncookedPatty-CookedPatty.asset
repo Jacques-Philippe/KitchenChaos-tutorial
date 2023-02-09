@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: UncookedPatty-CookedPatty
   m_EditorClassIdentifier: 
   inputKitchenObject: {fileID: 11400000, guid: 0607a73ef7fdb1e4888e1dc0f490a01c, type: 2}
-  outputKitchenObject: {fileID: 11400000, guid: 48b851ab48e5e1c45a2d7790507344d8,
+  outputKitchenObject: {fileID: 11400000, guid: 8737751f8fb96cf4da592b88f74b8796,
     type: 2}
   TimeToFry: 4
