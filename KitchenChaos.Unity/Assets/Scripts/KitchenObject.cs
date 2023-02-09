@@ -49,5 +49,14 @@ namespace KitchenChaosTutorial
         {
             return this.mKitchenObjectSO;
         }
+
+        public static void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent parent)
+        {
+            GameObject kitchenObjectGameObject = GameObject.Instantiate(original: kitchenObjectSO.Prefab);
+            if (kitchenObjectGameObject.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
+            {
+                kitchenObject.setKitchenObjectParent(parent);
+            }
+        }
     }
 }

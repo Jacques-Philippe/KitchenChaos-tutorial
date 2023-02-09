@@ -94,15 +94,10 @@ namespace KitchenChaosTutorial
             KitchenObject counterKitchenObject = this.GetKitchenObject();
             FryRecipeSO fryRecipe = this.GetFryRecipe(counterKitchenObject);
             
-            GameObject next = fryRecipe.outputKitchenObject.Prefab;
             //Destroy existing counter kitchen object
             counterKitchenObject.DestroySelf();
             //Spawn new counter kitchen object
-            GameObject newKitchenGameObject = GameObject.Instantiate(next, parent: this.GetKitchenObjectFollowTransform());
-            if (newKitchenGameObject.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
-            {
-                kitchenObject.setKitchenObjectParent(this);
-            }
+            KitchenObject.SpawnKitchenObject(fryRecipe.outputKitchenObject, this);
         }
     }
 

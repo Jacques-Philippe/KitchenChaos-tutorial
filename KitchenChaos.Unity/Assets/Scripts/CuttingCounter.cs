@@ -80,11 +80,7 @@ namespace KitchenChaosTutorial
                     {
                         counterKitchenObject.DestroySelf();
                         //slice it
-                        GameObject slicedGameObject = Instantiate(original: sliceRecipe.output.Prefab);
-                        if (slicedGameObject.TryGetComponent<KitchenObject>(out KitchenObject kitchenObject))
-                        {
-                            kitchenObject.setKitchenObjectParent(this);
-                        }
+                        KitchenObject.SpawnKitchenObject(sliceRecipe.output, this);
                     }
                 }
             }
