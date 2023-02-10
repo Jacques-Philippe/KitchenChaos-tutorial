@@ -11,6 +11,13 @@ namespace KitchenChaosTutorial
         [SerializeField] private FryRecipeSO[] fryRecipes;
         [SerializeField] private BurnRecipeSO[] burnRecipes;
 
+        /// <summary>
+        /// States to define stove behaviour. <br />
+        /// The stove is <see cref="Idle"/> for no kitchen object on the stove. <br />
+        /// The stove is <see cref="Frying"/> for a kitchen object with a Fry Recipe put onto the stove. <br />
+        /// The stove is <see cref="Burning"/> for a kitchen object has fried and now is starting to burn. Note this kitchen object must have a Burn Recipe <br />
+        /// The stove is <see cref="Burned"/> for the kitchen object has completed burning
+        /// </summary>
         public enum State
         {
             Idle,
@@ -19,15 +26,44 @@ namespace KitchenChaosTutorial
             Burned
         };
 
+        /// <summary>
+        /// The stove's current state
+        /// </summary>
         public State state { private set; get; }
 
+        /// <summary>
+        /// the timer to keep track of the burn timer progress
+        /// </summary>
         private float burnTimer;
+        /// <summary>
+        /// The currently active burn recipe SO
+        /// </summary>
         private BurnRecipeSO burnRecipeSO;
 
+        /// <summary>
+        /// the timer to keep track of the fry timer progress
+        /// </summary>
         private float fryTimer;
+        /// <summary>
+        /// the currently active fry recipe SO
+        /// </summary>
         private FryRecipeSO fryRecipeSO;
 
+        /// <inheritdoc/>
         public event EventHandler<IHasProgress.ProgressChangedEventArgs> OnProgressChanged;
+
+        /// <summary>
+        /// Event fired for the stove turned on
+        /// </summary>
+        public event EventHandler OnStoveOn;
+        /// <summary>
+        /// Event fired for the food on the stove has burned
+        /// </summary>
+        public event EventHandler OnFoodBurned;
+        /// <summary>
+        /// Event fired for the food has been removed from the stove
+        /// </summary>
+        public event EventHandler OnFoodRemoved;
 
         private void Start()
         {
@@ -75,6 +111,7 @@ namespace KitchenChaosTutorial
                             this.burnTimer = 0.0f;
                             this.burnRecipeSO = null;
                             this.state = State.Burned;
+                            this.OnFoodBurned?.Invoke(this, EventArgs.Empty);
                         }
                         break;
                     }
@@ -101,6 +138,7 @@ namespace KitchenChaosTutorial
                 this.fryTimer = 0.0f;
                 this.burnTimer = 0.0f;
                 this.state = State.Frying;
+                this.OnStoveOn?.Invoke(this, EventArgs.Empty);
             }
             //else if the player has no item and there is an item on the stove
             else if (playerKitchenObject == null && counterKitchenObject != null)
@@ -110,6 +148,7 @@ namespace KitchenChaosTutorial
                 this.OnProgressChanged?.Invoke(sender: this, new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
 
                 this.state = State.Idle;
+                this.OnFoodRemoved?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -130,6 +169,11 @@ namespace KitchenChaosTutorial
             return false;
         }
 
+        /// <summary>
+        /// Helper to return a Fry Recipe SO given <paramref name="inputKitchenObject"/>
+        /// </summary>
+        /// <param name="inputKitchenObject"></param>
+        /// <returns></returns>
         private FryRecipeSO GetFryRecipeSO(KitchenObject inputKitchenObject)
         {
             foreach (var recipe in fryRecipes)
@@ -142,6 +186,11 @@ namespace KitchenChaosTutorial
             return null;
         }
 
+        /// <summary>
+        /// Helper to return a Burn Recipe SO given <paramref name="inputKitchenObject"/>
+        /// </summary>
+        /// <param name="inputKitchenObject"></param>
+        /// <returns></returns>
         private BurnRecipeSO GetBurnRecipeSO(KitchenObject inputKitchenObject)
         {
             foreach (var recipe in burnRecipes)
@@ -154,6 +203,9 @@ namespace KitchenChaosTutorial
             return null;
         }
 
+        /// <summary>
+        /// helper to fry the kitchen object currently being fried
+        /// </summary>
         private void Fry()
         {
             //Get reference to next counter kitchen object to spawn
@@ -166,6 +218,9 @@ namespace KitchenChaosTutorial
             KitchenObject.SpawnKitchenObject(fryRecipe.outputKitchenObject, this);
         }
 
+        /// <summary>
+        /// Helper to burn the kitchen object currently being burned
+        /// </summary>
         private void Burn()
         {
             //Get reference to next counter kitchen object to spawn
