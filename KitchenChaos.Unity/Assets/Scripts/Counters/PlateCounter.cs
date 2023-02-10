@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,11 @@ namespace KitchenChaosTutorial
         /// </summary>
         private float mTimeToSpawnPlate = 4.0f;
 
+        /// <summary>
+        /// Event fired for a new plate spawned
+        /// </summary>
+        public event EventHandler OnPlateSpawned;
+
         //Spawn a plate every four seconds
         //Unless there are already four plates
 
@@ -26,6 +32,8 @@ namespace KitchenChaosTutorial
             if (mSpawnTimer >= mTimeToSpawnPlate)
             {
                 KitchenObject.SpawnKitchenObject(kitchenObjectSO: mPlateKitchenObjectSO, this);
+                mSpawnTimer = 0.0f;
+                this.OnPlateSpawned?.Invoke(this, EventArgs.Empty);
             }
             else
             {
@@ -35,7 +43,21 @@ namespace KitchenChaosTutorial
 
         public override void Interact(Player player)
         {
-            throw new System.NotImplementedException();
+            KitchenObject counterKitchenObject = this.GetKitchenObject();
+            KitchenObject playerKitchenObject = player.GetKitchenObject();
+            
+            //if there is a plate on the counter
+            
+            if (counterKitchenObject != null)
+            {
+                //the player doesn't have a kitchen object,
+
+                if (playerKitchenObject == null)
+                {
+                    //give it to the player
+                    counterKitchenObject.setKitchenObjectParent(player);
+                }
+            }
         }
 
     }
