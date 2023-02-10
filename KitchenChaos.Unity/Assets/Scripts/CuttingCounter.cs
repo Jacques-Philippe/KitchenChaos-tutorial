@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace KitchenChaosTutorial
 {
 
-    public class CuttingCounter : BaseCounter
+    public class CuttingCounter : BaseCounter, IHasProgress
     {
         /// <summary>
         /// A list of all items for which there is a slice recipe
@@ -17,12 +18,9 @@ namespace KitchenChaosTutorial
         /// Event fired 
         /// </summary>
         public event EventHandler OnCut;
-        public event EventHandler<CutChangedEventArgs> OnCutProgressChanged;
-        public class CutChangedEventArgs : EventArgs
-        {
-            public float percentage;
-        }
-        
+
+        public event EventHandler<IHasProgress.ProgressChangedEventArgs> OnProgressChanged;
+
 
         /// <summary>
         /// The number of cuts performed so far. <br />
@@ -45,7 +43,7 @@ namespace KitchenChaosTutorial
                     playerKitchenObject.setKitchenObjectParent(this);
 
                     this.mCuts = 0;
-                    this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = 0.0f });
+                    this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs{ normalizedProgress = 0.0f });
                 }
             }
             //else if there is a kitchen object on the counter and the player doesn't have a kitchen object, give it to the player
@@ -54,7 +52,7 @@ namespace KitchenChaosTutorial
                 counterKitchenObject.setKitchenObjectParent(player);
 
                 this.mCuts = 0;
-                this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = 0.0f });
+                this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
             }
 
         }
@@ -73,7 +71,7 @@ namespace KitchenChaosTutorial
 
                     float percentage = (float)this.mCuts / sliceRecipe.maxCuts;
                     
-                    this.OnCutProgressChanged?.Invoke(sender: this, e: new CutChangedEventArgs() { percentage = percentage });
+                    this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs { normalizedProgress = percentage });
                     this.OnCut?.Invoke(sender: this, e: EventArgs.Empty);
 
                     if (this.mCuts >= sliceRecipe.maxCuts)

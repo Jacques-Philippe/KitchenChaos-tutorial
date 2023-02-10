@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace KitchenChaosTutorial
 {
-    public class StoveCounter : BaseCounter
+    public class StoveCounter : BaseCounter, IHasProgress
     {
 
         [SerializeField] private FryRecipeSO[] fryRecipes;
@@ -26,6 +27,8 @@ namespace KitchenChaosTutorial
         private float fryTimer;
         private FryRecipeSO fryRecipeSO;
 
+        public event EventHandler<IHasProgress.ProgressChangedEventArgs> OnProgressChanged;
+
         private void Start()
         {
             state = State.Idle;
@@ -43,6 +46,10 @@ namespace KitchenChaosTutorial
                 case State.Frying:
                     {
                         this.fryTimer += Time.deltaTime;
+
+                        float normalizedProgress = this.fryTimer / this.fryRecipeSO.TimeToFry;    
+                        this.OnProgressChanged?.Invoke(this, new IHasProgress.ProgressChangedEventArgs { normalizedProgress = normalizedProgress });
+
                         if (fryTimer >= this.fryRecipeSO.TimeToFry)
                         {
                             Fry();
@@ -57,6 +64,10 @@ namespace KitchenChaosTutorial
                 case State.Burning:
                     {
                         this.burnTimer += Time.deltaTime;
+
+                        float normalizedProgress = this.burnTimer / this.burnRecipeSO.TimeToBurn;
+                        this.OnProgressChanged?.Invoke(this, new IHasProgress.ProgressChangedEventArgs { normalizedProgress = normalizedProgress });
+
                         if (burnTimer >= this.burnRecipeSO.TimeToBurn)
                         {
                             Burn();
@@ -96,6 +107,9 @@ namespace KitchenChaosTutorial
             {
                 //pick up the kitchen object and give it to the player
                 counterKitchenObject.setKitchenObjectParent(player);
+                this.OnProgressChanged?.Invoke(sender: this, new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
+
+                this.state = State.Idle;
             }
         }
 

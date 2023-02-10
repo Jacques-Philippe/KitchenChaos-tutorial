@@ -9,26 +9,39 @@ namespace KitchenChaosTutorial
 
     public class ProgressBarUI : MonoBehaviour
     {
-        [SerializeField] private CuttingCounter mCuttingCounter;
+        [SerializeField] private GameObject mGameObjectHasProgress;
         [SerializeField] private Image mFill;
+
+        private IHasProgress mHasProgress;
 
         private void Start()
         {
-            mCuttingCounter.OnCutProgressChanged += MCuttingCounter_OnCutChanged;
+            
+            if (this.mGameObjectHasProgress.TryGetComponent<IHasProgress>(out IHasProgress hasProgress))
+            {
+                mHasProgress = hasProgress;
+                mHasProgress.OnProgressChanged += MCuttingCounter_OnCutChanged;
+            }
+            else
+            {
+                Debug.LogError($"{mGameObjectHasProgress.name} should implement IHasProgress");
+            }
+            
 
             mFill.fillAmount = 0.0f;
             this.Hide();
         }
 
-        private void MCuttingCounter_OnCutChanged(object sender, CuttingCounter.CutChangedEventArgs e)
+        private void MCuttingCounter_OnCutChanged(object sender, IHasProgress.ProgressChangedEventArgs e)
         {
-            this.SetFillAmount(percentage: e.percentage);
+            this.SetFillAmount(normalizedProgress: e.normalizedProgress);
         }
 
-        private void SetFillAmount(float percentage)
+
+        private void SetFillAmount(float normalizedProgress)
         {
-            this.mFill.fillAmount = percentage;
-            if (percentage == 0.0f || percentage == 1.0f)
+            this.mFill.fillAmount = normalizedProgress;
+            if (normalizedProgress == 0.0f || normalizedProgress == 1.0f)
             {
                 this.Hide();
             }
