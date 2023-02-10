@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 864ac91832891b340b59b37ee7694e94, type: 3}
-  m_Name: CookedPatty-BurntPatty
+  m_Script: {fileID: 11500000, guid: d7f64d5a73dfadc479612ad1c25cfcab, type: 3}
+  m_Name: CookedPatty-BurnedPatty
   m_EditorClassIdentifier: 
   inputKitchenObject: {fileID: 11400000, guid: 8737751f8fb96cf4da592b88f74b8796, type: 2}
   outputKitchenObject: {fileID: 11400000, guid: 48b851ab48e5e1c45a2d7790507344d8,
     type: 2}
-  TimeToFry: 3
+  TimeToBurn: 3

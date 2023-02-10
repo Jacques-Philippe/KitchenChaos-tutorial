@@ -334,8 +334,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mCounterTopPoint: {fileID: 2924671193442772530}
   fryRecipes:
-  - {fileID: 11400000, guid: 2636820bea7645f468f09742f1d79b12, type: 2}
   - {fileID: 11400000, guid: b901dabfc6410984daac002dc455ff07, type: 2}
+  burnRecipes:
+  - {fileID: 11400000, guid: ce36dcb01fd85464a8cf9f5b71c124c5, type: 2}
 --- !u!1001 &2728269016990671713
 PrefabInstance:
   m_ObjectHideFlags: 0
