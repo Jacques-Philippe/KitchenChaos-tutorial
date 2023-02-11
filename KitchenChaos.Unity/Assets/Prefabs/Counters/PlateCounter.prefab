@@ -69,6 +69,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e21b499d164095947b7559f0267f0e63, type: 3}
+--- !u!1 &2373854312441321110 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4589716710238282922, guid: e21b499d164095947b7559f0267f0e63,
+    type: 3}
+  m_PrefabInstance: {fileID: 2251919575978701372}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4812232454123045500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2373854312441321110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a041f8ea2aae19d4bb9acdeea4b6347e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counterTopPoint: {fileID: 5914346507743904625}
+  plateCounter: {fileID: 6450656908052469293}
+  plateKitchenObjectSO: {fileID: 11400000, guid: 53c610d36d4d65b498907a048c99823b,
+    type: 2}
 --- !u!1001 &3698386363902508752
 PrefabInstance:
   m_ObjectHideFlags: 0

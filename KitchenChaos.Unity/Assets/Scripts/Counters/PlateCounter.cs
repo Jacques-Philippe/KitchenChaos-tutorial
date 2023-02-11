@@ -19,10 +19,18 @@ namespace KitchenChaosTutorial
         /// </summary>
         private float mTimeToSpawnPlate = 4.0f;
 
+        private int platesToSpawn = 4;
+        private int platesSpawned = 0;
+
         /// <summary>
         /// Event fired for a new plate spawned
         /// </summary>
         public event EventHandler OnPlateSpawned;
+
+        /// <summary>
+        /// Event fired for a plate taken
+        /// </summary>
+        public event EventHandler OnPlateTaken;
 
         //Spawn a plate every four seconds
         //Unless there are already four plates
@@ -31,9 +39,13 @@ namespace KitchenChaosTutorial
         {
             if (mSpawnTimer >= mTimeToSpawnPlate)
             {
-                KitchenObject.SpawnKitchenObject(kitchenObjectSO: mPlateKitchenObjectSO, this);
-                mSpawnTimer = 0.0f;
-                this.OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+                if (platesSpawned < platesToSpawn)
+                {
+                    mSpawnTimer = 0.0f;
+                    this.platesSpawned++;
+
+                    this.OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+                }
             }
             else
             {
@@ -43,19 +55,18 @@ namespace KitchenChaosTutorial
 
         public override void Interact(Player player)
         {
-            KitchenObject counterKitchenObject = this.GetKitchenObject();
-            KitchenObject playerKitchenObject = player.GetKitchenObject();
-            
-            //if there is a plate on the counter
-            
-            if (counterKitchenObject != null)
+            //if the player isn't holding anything
+            if (!player.HasKitchenObject())
             {
-                //the player doesn't have a kitchen object,
-
-                if (playerKitchenObject == null)
+                //if at least a single plate has been spawned
+                if (platesSpawned > 0)
                 {
-                    //give it to the player
-                    counterKitchenObject.setKitchenObjectParent(player);
+                    //Give the player one of the plates
+                    KitchenObject.SpawnKitchenObject(kitchenObjectSO: mPlateKitchenObjectSO, parent: player);
+
+                    platesSpawned--;
+
+                    this.OnPlateTaken?.Invoke(sender: this, EventArgs.Empty);
                 }
             }
         }
