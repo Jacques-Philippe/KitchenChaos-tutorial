@@ -39,6 +39,9 @@ namespace KitchenChaosTutorial
             this.transform.localPosition = Vector3.zero;
         }
 
+        /// <summary>
+        /// Function to clear this kitchen object's parent, and then destroy this gameobject instance
+        /// </summary>
         public void DestroySelf()
         {
             this.mKitchenObjectParent.ClearKitchenObject();
@@ -50,6 +53,30 @@ namespace KitchenChaosTutorial
             return this.mKitchenObjectSO;
         }
 
+        /// <summary>
+        /// Helper function to get the instance of <see cref="PlateKitchenObject"/> associated to this <see cref="KitchenObject"/>, if any
+        /// </summary>
+        /// <param name="plateKitchenObject"></param>
+        /// <returns></returns>
+        public bool TryGetPlate(out PlateKitchenObject plateKitchenObject)
+        {
+            if (this is PlateKitchenObject)
+            {
+                plateKitchenObject = this as PlateKitchenObject;
+                return true;
+            }
+            else
+            {
+                plateKitchenObject = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Static function to spawn prefab of <paramref name="kitchenObjectSO"/>, and associate it to <paramref name="parent"/>
+        /// </summary>
+        /// <param name="kitchenObjectSO"></param>
+        /// <param name="parent"></param>
         public static void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent parent)
         {
             GameObject kitchenObjectGameObject = GameObject.Instantiate(original: kitchenObjectSO.Prefab);
