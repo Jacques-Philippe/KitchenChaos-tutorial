@@ -24,10 +24,10 @@ namespace KitchenChaosTutorial
 
         private void PlateKitchenObject_OnIngredientAdded(object sender, PlateKitchenObject.IngredientAddedEventArgs e)
         {
-            this.AddIngredientUI();
+            this.UpdateVisual();
         }
 
-        private void AddIngredientUI()
+        private void UpdateVisual()
         {
             foreach(var spawned in spawnedIcons)
             {
