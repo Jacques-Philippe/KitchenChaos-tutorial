@@ -9,7 +9,18 @@ namespace KitchenChaosTutorial
     {
         public override void Interact(Player player)
         {
-            throw new System.NotImplementedException();
+            KitchenObject playerKitchenObject = player.GetKitchenObject();
+
+            //if the player has a kitchen object
+            if (playerKitchenObject != null)
+            {
+                //if the kitchen object is a plate
+                if (playerKitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    //then accept the plate
+                    plateKitchenObject.DestroySelf();
+                }
+            }
         }
 
     }
