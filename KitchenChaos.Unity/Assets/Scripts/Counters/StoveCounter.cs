@@ -122,34 +122,69 @@ namespace KitchenChaosTutorial
             }
         }
 
+
         public override void Interact(Player player)
         {
             KitchenObject playerKitchenObject = player.GetKitchenObject();
             KitchenObject counterKitchenObject = this.GetKitchenObject();
-            //if the player has an item which can be fried
-            if (playerKitchenObject != null && this.HasFryRecipe(playerKitchenObject))
+            //if the player has a kitchen object
+            if (player.HasKitchenObject())
             {
-                this.fryRecipeSO = GetFryRecipeSO(playerKitchenObject);
+                //if there is a kitchen object on the counter
+                if (counterKitchenObject != null)
+                {
+                    //if the player has a plate
+                    if (playerKitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                    {
+                        //try to add the counter kitchen object to the plate
+                        if (plateKitchenObject.TryAddIngredient(counterKitchenObject.GetKitchenObjectSO()))
+                        {
+                            counterKitchenObject.DestroySelf();
 
-                //place the item on the stove
-                playerKitchenObject.setKitchenObjectParent(this);
+                            this.ResetStateForFoodRemoved();
+                        }
+                    }
+                }
+                //else if there is no kitchen object on the counter
+                else
+                {
+                    //if the player has an item which can be fried
+                    if (this.HasFryRecipe(playerKitchenObject))
+                    {
+                        this.fryRecipeSO = GetFryRecipeSO(playerKitchenObject);
 
-                //Start frying
-                this.fryTimer = 0.0f;
-                this.burnTimer = 0.0f;
-                this.state = State.Frying;
-                this.OnStoveOn?.Invoke(this, EventArgs.Empty);
+                        //place the item on the stove
+                        playerKitchenObject.setKitchenObjectParent(this);
+
+                        //Start frying
+                        this.fryTimer = 0.0f;
+                        this.burnTimer = 0.0f;
+                        this.state = State.Frying;
+                        this.OnStoveOn?.Invoke(this, EventArgs.Empty);
+                    }
+                }
             }
-            //else if the player has no item and there is an item on the stove
-            else if (playerKitchenObject == null && counterKitchenObject != null)
+            //else if the player does not have a kitchen object
+            else
             {
-                //pick up the kitchen object and give it to the player
-                counterKitchenObject.setKitchenObjectParent(player);
-                this.OnProgressChanged?.Invoke(sender: this, new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
+                //if there is a kitchen object on the counter
+                if (counterKitchenObject != null)
+                {
+                    //pick up the kitchen object and give it to the player
+                    counterKitchenObject.setKitchenObjectParent(player);
 
-                this.state = State.Idle;
-                this.OnFoodRemoved?.Invoke(this, EventArgs.Empty);
+                    this.ResetStateForFoodRemoved();
+                }
             }
+
+        }
+
+        private void ResetStateForFoodRemoved()
+        {
+            this.OnProgressChanged?.Invoke(sender: this, new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
+
+            this.state = State.Idle;
+            this.OnFoodRemoved?.Invoke(this, EventArgs.Empty);
         }
 
 
