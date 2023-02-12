@@ -8,6 +8,8 @@ namespace KitchenChaosTutorial
 
     public class PlateKitchenObject : KitchenObject
     {
+        
+
         /// <summary>
         /// The list of valid kitchenObjectSOs which can be added to a plate
         /// </summary>
@@ -16,6 +18,16 @@ namespace KitchenChaosTutorial
         /// The list of all ingredients on the plate
         /// </summary>
         private List<KitchenObjectSO> ingredientList = new List<KitchenObjectSO>();
+
+        /// <summary>
+        /// Event fired for ingredient added to the plate
+        /// </summary>
+        public event EventHandler<IngredientAddedEventArgs> OnIngredientAdded;
+
+        public class IngredientAddedEventArgs : EventArgs
+        {
+            public KitchenObjectSO AddedIngredient;
+        }
 
         /// <summary>
         /// Function to try to add an ingredient to the list of ingredients on the plate <br />
@@ -38,6 +50,7 @@ namespace KitchenChaosTutorial
                 return false;
             }
             this.ingredientList.Add(kitchenObjectSO);
+            this.OnIngredientAdded?.Invoke(this, new IngredientAddedEventArgs { AddedIngredient = kitchenObjectSO });
             return true;
         }
     }
