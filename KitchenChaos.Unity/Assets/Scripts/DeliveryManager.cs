@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,16 @@ namespace KitchenChaosTutorial
         /// Singleton instance of the DeliveryManager class.
         /// </summary>
         public static DeliveryManager Instance { private set; get; }
+
+        /// <summary>
+        /// Event fired for a new order needs to be handled by the player
+        /// </summary>
+        public event EventHandler<OrderAddedEventArgs> OrderAdded;
+
+        public class OrderAddedEventArgs : EventArgs
+        {
+            public RecipeSO AddedRecipe;
+        }
 
         /// <summary>
         /// The time until the next recipe is selected
@@ -56,11 +67,12 @@ namespace KitchenChaosTutorial
                 if (recipeSelectionTimer >= recipeSelectionDelay)
                 {
                     //Choose a recipe
-                    RecipeSO recipe = recipeListSO.recipeSOList[Random.Range(minInclusive: 0, maxExclusive: recipeListSO.recipeSOList.Count)];
+                    RecipeSO recipe = recipeListSO.recipeSOList[UnityEngine.Random.Range(minInclusive: 0, maxExclusive: recipeListSO.recipeSOList.Count)];
                     Debug.Log($"New order: {recipe.recipeName}");
 
                     //Add it to the list of currently waiting recipes
                     this.waitingRecipes.Add(recipe);
+                    this.OrderAdded?.Invoke(this, new OrderAddedEventArgs { AddedRecipe = recipe });
 
                     recipeSelectionTimer = 0.0f;
                 }
