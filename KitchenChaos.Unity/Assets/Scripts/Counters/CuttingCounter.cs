@@ -28,32 +28,85 @@ namespace KitchenChaosTutorial
         /// </summary>
         private int mCuts;
 
+        ///// <inheritdoc/>
+        //public override void Interact(Player player)
+        //{
+        //    KitchenObject counterKitchenObject = this.GetKitchenObject();
+        //    KitchenObject playerKitchenObject = player.GetKitchenObject();
+        //    //if there is no kitchen object on the counter and the player has a kitchen object
+        //    if (counterKitchenObject == null && playerKitchenObject != null)
+        //    {
+        //        //if the kitchen object has a slice recipe
+        //        if (HasASliceRecipe(playerKitchenObject))
+        //        {
+        //            //place the kitchen object on the cutting counter
+        //            playerKitchenObject.setKitchenObjectParent(this);
+
+        //            this.mCuts = 0;
+        //            this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs{ normalizedProgress = 0.0f });
+        //        }
+        //    }
+        //    //else if there is a kitchen object on the counter and the player doesn't have a kitchen object, give it to the player
+        //    else if (counterKitchenObject != null && playerKitchenObject == null)
+        //    {
+        //        counterKitchenObject.setKitchenObjectParent(player);
+
+        //        this.mCuts = 0;
+        //        this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
+        //    }
+
+        //}
+
         /// <inheritdoc/>
         public override void Interact(Player player)
         {
             KitchenObject counterKitchenObject = this.GetKitchenObject();
             KitchenObject playerKitchenObject = player.GetKitchenObject();
-            //if there is no kitchen object on the counter and the player has a kitchen object
-            if (counterKitchenObject == null && playerKitchenObject != null)
+            //if the player has a kitchen object
+            if (player.HasKitchenObject())
             {
-                //if the kitchen object has a slice recipe
-                if (HasASliceRecipe(playerKitchenObject))
+                //if there is no kitchen object on the counter
+                if (counterKitchenObject == null)
                 {
-                    //place the kitchen object on the cutting counter
-                    playerKitchenObject.setKitchenObjectParent(this);
+                    //if the kitchen object has a slice recipe
+                    if (HasASliceRecipe(playerKitchenObject))
+                    {
+                        //place the kitchen object on the cutting counter
+                        playerKitchenObject.setKitchenObjectParent(this);
 
-                    this.mCuts = 0;
-                    this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs{ normalizedProgress = 0.0f });
+                        this.mCuts = 0;
+                        this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
+                    }
+                }
+                //else if there is a kitchen object on the counter
+                else
+                {
+                    //if the player's kitchen object is a plate
+                    if (playerKitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                    {
+                        //try to add the counter kitchen object onto the plate
+                        if (plateKitchenObject.TryAddIngredient(counterKitchenObject.GetKitchenObjectSO()))
+                        {
+                            counterKitchenObject.DestroySelf();
+                        }
+
+                    }
                 }
             }
-            //else if there is a kitchen object on the counter and the player doesn't have a kitchen object, give it to the player
-            else if (counterKitchenObject != null && playerKitchenObject == null)
+            //player doesn't have a kitchen object
+            else
             {
-                counterKitchenObject.setKitchenObjectParent(player);
+                //if there is a kitchen object on the counter
+                if (counterKitchenObject != null)
+                {
+                    //give it to the player
+                    counterKitchenObject.setKitchenObjectParent(player);
 
-                this.mCuts = 0;
-                this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
+                    this.mCuts = 0;
+                    this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 0.0f });
+                }
             }
+            
 
         }
 
