@@ -54,7 +54,11 @@ namespace KitchenChaosTutorial
             return true;
         }
 
-        public List<KitchenObjectSO> GetIngredientList()
+        /// <summary>
+        /// Return the list of KitchenObjects currently on the plate
+        /// </summary>
+        /// <returns></returns>
+        public List<KitchenObjectSO> GetKitchenObjectSOList()
         {
             return this.ingredientList;
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace KitchenChaosTutorial
                 //if the kitchen object is a plate
                 if (playerKitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
                 {
+                    DeliveryManager.Instance.Deliver(plateKitchenObject.GetKitchenObjectSOList());
                     //then accept the plate
                     plateKitchenObject.DestroySelf();
                 }

@@ -35,7 +35,7 @@ namespace KitchenChaosTutorial
             }
             this.spawnedIcons.Clear();
 
-            foreach(var ingredient in this.plateKitchenObject.GetIngredientList())
+            foreach(var ingredient in this.plateKitchenObject.GetKitchenObjectSOList())
             {
                 GameObject icon = GameObject.Instantiate(iconTemplate, parent: this.transform);
                 if (icon.TryGetComponent<PlateIconUI>(out PlateIconUI plateIconUI))
