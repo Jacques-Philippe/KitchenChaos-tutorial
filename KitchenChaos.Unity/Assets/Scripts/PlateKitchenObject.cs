@@ -53,5 +53,10 @@ namespace KitchenChaosTutorial
             this.OnIngredientAdded?.Invoke(this, new IngredientAddedEventArgs { AddedIngredient = kitchenObjectSO });
             return true;
         }
+
+        public List<KitchenObjectSO> GetIngredientList()
+        {
+            return this.ingredientList;
+        }
     }
 }
