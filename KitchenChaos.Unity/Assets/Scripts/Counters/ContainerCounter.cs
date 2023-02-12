@@ -36,13 +36,22 @@ namespace KitchenChaosTutorial
                 //if there is a kitchen object on the counter
                 else
                 {
-                    //if the player has a plate
+                    //if the player kitchen object is a plate
                     if (playerKitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
                     {
-                        //if the ingredient can be added to the plate
+                        //if the counter kitchen object can be added to the plate
                         if (plateKitchenObject.TryAddIngredient(counterKitchenObject.GetKitchenObjectSO()))
                         {
                             counterKitchenObject.DestroySelf();
+                        }
+                    }
+                    //else if the counter kitchen object is a plate
+                    else if (counterKitchenObject.TryGetPlate(out plateKitchenObject))
+                    {
+                        //if the player kitchen object can be added to the plate
+                        if (plateKitchenObject.TryAddIngredient(playerKitchenObject.GetKitchenObjectSO()))
+                        {
+                            playerKitchenObject.DestroySelf();
                         }
                     }
                 }
