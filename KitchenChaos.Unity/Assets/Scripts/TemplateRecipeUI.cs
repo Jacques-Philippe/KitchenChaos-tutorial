@@ -34,6 +34,7 @@ namespace KitchenChaosTutorial
                 if (instantiatedIcon.TryGetComponent<Image>(out Image image))
                 {
                     image.sprite = sprite;
+                    instantiatedIcon.SetActive(true);
                 }
             }
         }
