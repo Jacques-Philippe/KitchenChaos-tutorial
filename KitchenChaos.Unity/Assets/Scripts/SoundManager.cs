@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+namespace KitchenChaosTutorial
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public class SoundManager : MonoBehaviour
     {
+        [SerializeField] private AudioClipReferencesSO audioClipReferencesSO;
+
+
+
+        private void PlaySound(AudioClip[] clipArray, Vector3 position, float volume = 1.0f)
+        {
+            int index = Random.Range(minInclusive: 0, maxExclusive: clipArray.Length);
+            AudioSource.PlayClipAtPoint(clip: clipArray[index], position: position, volume: volume);
+        }
         
+        private void PlaySound(AudioClip clip, Vector3 position, float volume = 1.0f)
+        {
+            AudioSource.PlayClipAtPoint(clip: clip, position: position, volume: volume);
+        }
     }
 }
