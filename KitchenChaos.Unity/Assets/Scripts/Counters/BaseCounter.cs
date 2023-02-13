@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,16 @@ namespace KitchenChaosTutorial
     {
         [SerializeField] private Transform mCounterTopPoint;
 
+
+        /// <summary>
+        /// A reference to the kitchen object associated to the counter
+        /// </summary>
         private KitchenObject mKitchenObject;
+
+        /// <summary>
+        /// Event fired for a kitchen object placed onto a counter
+        /// </summary>
+        public static event EventHandler OnSomethingPutDown;
 
         /// <summary>
         /// A function to determine how the counter will respond to player interaction
@@ -54,6 +64,8 @@ namespace KitchenChaosTutorial
         public void SetKitchenObject(KitchenObject newKitchenObject)
         {
             this.mKitchenObject = newKitchenObject;
+
+            this.OnSomethingPutDown?.Invoke(sender: this, e: EventArgs.Empty);
         }
     }
 }

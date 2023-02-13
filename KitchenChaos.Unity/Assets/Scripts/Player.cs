@@ -57,6 +57,12 @@ namespace KitchenChaosTutorial
         public event EventHandler OnMovement;
 
         /// <summary>
+        /// Event fired for player picked up something
+        /// </summary>
+        public event EventHandler OnPickedUpSomething;
+
+
+        /// <summary>
         /// Whether the player is moving
         /// </summary>
         public bool IsWalking { private set; get; }
@@ -239,6 +245,7 @@ namespace KitchenChaosTutorial
         public void SetKitchenObject(KitchenObject newKitchenObject)
         {
             this.mKitchenObject = newKitchenObject;
+            this.OnPickedUpSomething?.Invoke(sender: this, e: EventArgs.Empty);
         }
 
         /// <inheritdoc/>
