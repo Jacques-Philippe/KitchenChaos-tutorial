@@ -65,7 +65,7 @@ namespace KitchenChaosTutorial
         {
             this.mKitchenObject = newKitchenObject;
 
-            this.OnSomethingPutDown?.Invoke(sender: this, e: EventArgs.Empty);
+            BaseCounter.OnSomethingPutDown?.Invoke(sender: this, e: EventArgs.Empty);
         }
     }
 }
