@@ -10,25 +10,32 @@ namespace KitchenChaosTutorial
 
     public class DeliveryManagerUI : MonoBehaviour
     {
+        /// <summary>
+        /// The prefab to be instantiated to UI on new recipe order added or removed
+        /// </summary>
         [SerializeField] private GameObject templateRecipeUIPrefab;
 
 
         private void Start()
         {
-            DeliveryManager.Instance.OnRecipeAdded += DeliveryManager_OnRecipeAdded;
-            DeliveryManager.Instance.OnRecipeRemoved += DeliveryManager_OnRecipeRemoved;
+            DeliveryManager.Instance.OnRecipeAdded += Instance_OnRecipeAdded; ;
+            DeliveryManager.Instance.OnRecipeRemoved += Instance_OnRecipeRemoved; ;
         }
 
-        private void DeliveryManager_OnRecipeRemoved(object sender, DeliveryManager.OnRecipeRemovedEventArgs e)
+        private void Instance_OnRecipeRemoved(object sender, System.EventArgs e)
         {
             this.UpdateUI();
         }
 
-        private void DeliveryManager_OnRecipeAdded(object sender, DeliveryManager.OnRecipeAddedEventArgs e)
+        private void Instance_OnRecipeAdded(object sender, System.EventArgs e)
         {
             this.UpdateUI();
+
         }
 
+        /// <summary>
+        /// Function to invoke on food order added or removed; updates the UI with the new list of orders
+        /// </summary>
         private void UpdateUI()
         {
             //Clear existing UI
@@ -39,18 +46,22 @@ namespace KitchenChaosTutorial
             //Create new UI
             foreach(var recipe in DeliveryManager.Instance.GetListOfWaitingRecipes())
             {
-                this.DisplayRecipe(recipe);
+                this.CreateRecipeDisplay_UI(recipe);
             }
         }
 
-        private void DisplayRecipe(RecipeSO recipe)
+        /// <summary>
+        /// Helper to display a single recipe UI element
+        /// </summary>
+        /// <param name="recipe"></param>
+        private void CreateRecipeDisplay_UI(RecipeSO recipe)
         {
             GameObject recipeDisplayGameobj = GameObject.Instantiate(original: this.templateRecipeUIPrefab, parent: this.transform);
             if (recipeDisplayGameobj.TryGetComponent<TemplateRecipeUI>(out TemplateRecipeUI templateRecipeUI))
             {
-                templateRecipeUI.SetRecipeName(recipe.recipeName);
+                templateRecipeUI.SetRecipeName_UI(recipe.recipeName);
                 List<Sprite> sprites = recipe.kitchenObjectSOList.Select(kitchenObjectSO => kitchenObjectSO.Sprite).ToList();
-                templateRecipeUI.SetIcons(sprites);
+                templateRecipeUI.SetRecipeSprites_UI(sprites);
             }
         }
     }

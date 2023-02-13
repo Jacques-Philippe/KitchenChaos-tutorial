@@ -22,22 +22,12 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// Event fired for a new recipe needs to be handled by the player
         /// </summary>
-        public event EventHandler<OnRecipeAddedEventArgs> OnRecipeAdded;
-
-        public class OnRecipeAddedEventArgs : EventArgs
-        {
-            public RecipeSO AddedRecipe;
-        }
+        public event EventHandler OnRecipeAdded;
 
         /// <summary>
         /// Event fired for a recipe handled by the player
         /// </summary>
-        public event EventHandler<OnRecipeRemovedEventArgs> OnRecipeRemoved;
-
-        public class OnRecipeRemovedEventArgs : EventArgs
-        {
-            public RecipeSO RemovedRecipe;
-        }
+        public event EventHandler OnRecipeRemoved;
 
         /// <summary>
         /// The time until the next recipe is selected
@@ -83,7 +73,7 @@ namespace KitchenChaosTutorial
 
                     //Add it to the list of currently waiting recipes
                     this.waitingRecipes.Add(recipe);
-                    this.OnRecipeAdded?.Invoke(this, new OnRecipeAddedEventArgs { AddedRecipe = recipe });
+                    this.OnRecipeAdded?.Invoke(this, EventArgs.Empty);
 
                     recipeSelectionTimer = 0.0f;
                 }
@@ -109,7 +99,7 @@ namespace KitchenChaosTutorial
                     //Ingredients match the recipe!
                     Debug.Log($"Ingredients match recipe {recipe.recipeName}!");
                     this.waitingRecipes.Remove(recipe);
-                    this.OnRecipeRemoved?.Invoke(sender: this, e: new OnRecipeRemovedEventArgs { RemovedRecipe = recipe });
+                    this.OnRecipeRemoved?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
