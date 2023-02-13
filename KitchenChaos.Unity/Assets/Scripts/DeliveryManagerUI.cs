@@ -46,23 +46,13 @@ namespace KitchenChaosTutorial
             //Create new UI
             foreach(var recipe in DeliveryManager.Instance.GetListOfWaitingRecipes())
             {
-                this.CreateRecipeDisplay_UI(recipe);
+                GameObject recipeDisplayGameobj = GameObject.Instantiate(original: this.templateRecipeUIPrefab, parent: this.transform);
+                if (recipeDisplayGameobj.TryGetComponent<TemplateRecipeUI>(out TemplateRecipeUI templateRecipeUI))
+                {
+                    templateRecipeUI.SetRecipeSO(recipe);
+                }
             }
         }
 
-        /// <summary>
-        /// Helper to display a single recipe UI element
-        /// </summary>
-        /// <param name="recipe"></param>
-        private void CreateRecipeDisplay_UI(RecipeSO recipe)
-        {
-            GameObject recipeDisplayGameobj = GameObject.Instantiate(original: this.templateRecipeUIPrefab, parent: this.transform);
-            if (recipeDisplayGameobj.TryGetComponent<TemplateRecipeUI>(out TemplateRecipeUI templateRecipeUI))
-            {
-                templateRecipeUI.SetRecipeName_UI(recipe.recipeName);
-                List<Sprite> sprites = recipe.kitchenObjectSOList.Select(kitchenObjectSO => kitchenObjectSO.Sprite).ToList();
-                templateRecipeUI.SetRecipeSprites_UI(sprites);
-            }
-        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,18 +26,11 @@ namespace KitchenChaosTutorial
         /// Set the name of the recipe
         /// </summary>
         /// <param name="name"></param>
-        public void SetRecipeName_UI(string recipeName)
+        public void SetRecipeSO(RecipeSO recipe)
         {
-            this.recipeText.text = recipeName;
-        }
-
-        /// <summary>
-        /// Instantiate all icons given the list of sprites
-        /// </summary>
-        /// <param name="sprites"></param>
-        public void SetRecipeSprites_UI(List<Sprite> sprites)
-        {
-            foreach(var sprite in sprites)
+            this.recipeText.text = recipe.recipeName;
+            List<Sprite> sprites = recipe.kitchenObjectSOList.Select(kitchenObjectSO => kitchenObjectSO.Sprite).ToList();
+            foreach (var sprite in sprites)
             {
                 GameObject instantiatedIcon = GameObject.Instantiate(iconTemplate, parent: iconContainer);
                 if (instantiatedIcon.TryGetComponent<Image>(out Image image))
@@ -46,5 +40,31 @@ namespace KitchenChaosTutorial
                 }
             }
         }
+
+        ///// <summary>
+        ///// Set the name of the recipe
+        ///// </summary>
+        ///// <param name="name"></param>
+        //public void SetRecipeName_UI(string recipeName)
+        //{
+        //    this.recipeText.text = recipeName;
+        //}
+
+        ///// <summary>
+        ///// Instantiate all icons given the list of sprites
+        ///// </summary>
+        ///// <param name="sprites"></param>
+        //public void SetRecipeSprites_UI(List<Sprite> sprites)
+        //{
+        //    foreach(var sprite in sprites)
+        //    {
+        //        GameObject instantiatedIcon = GameObject.Instantiate(iconTemplate, parent: iconContainer);
+        //        if (instantiatedIcon.TryGetComponent<Image>(out Image image))
+        //        {
+        //            image.sprite = sprite;
+        //            instantiatedIcon.SetActive(true);
+        //        }
+        //    }
+        //}
     }
 }
