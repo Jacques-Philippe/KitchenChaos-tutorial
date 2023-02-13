@@ -15,6 +15,11 @@ namespace KitchenChaosTutorial
         [SerializeField] private SliceRecipeSO[] mSliceRecipeSOs;
 
         /// <summary>
+        /// Static event fired for any of the cutting counters cut
+        /// </summary>
+        public static event EventHandler OnAnyCut;
+
+        /// <summary>
         /// Event fired 
         /// </summary>
         public event EventHandler OnCut;
@@ -98,6 +103,7 @@ namespace KitchenChaosTutorial
                     
                     this.OnProgressChanged?.Invoke(sender: this, e: new IHasProgress.ProgressChangedEventArgs { normalizedProgress = percentage });
                     this.OnCut?.Invoke(sender: this, e: EventArgs.Empty);
+                    CuttingCounter.OnAnyCut?.Invoke(sender: this, e: EventArgs.Empty);
 
                     if (this.mCuts >= sliceRecipe.maxCuts)
                     {

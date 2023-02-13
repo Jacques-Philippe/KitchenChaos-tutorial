@@ -13,6 +13,16 @@ namespace KitchenChaosTutorial
         {
             DeliveryManager.Instance.OnOrderSuccess += DeliveryManager_OnOrderSuccess;
             DeliveryManager.Instance.OnOrderFailure += DeliveryManager_OnOrderFailure;
+            CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
+        }
+
+        private void CuttingCounter_OnAnyCut(object sender, System.EventArgs e)
+        {
+            if (sender is CuttingCounter)
+            {
+                Vector3 position = (sender as CuttingCounter).transform.position;
+                this.PlaySound(clipArray: this.audioClipReferencesSO.chop, position);
+            }
         }
 
         private void DeliveryManager_OnOrderFailure(object sender, System.EventArgs e)
