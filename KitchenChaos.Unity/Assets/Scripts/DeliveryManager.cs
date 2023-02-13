@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace KitchenChaosTutorial
 {
@@ -19,13 +20,23 @@ namespace KitchenChaosTutorial
         public static DeliveryManager Instance { private set; get; }
 
         /// <summary>
-        /// Event fired for a new order needs to be handled by the player
+        /// Event fired for a new recipe needs to be handled by the player
         /// </summary>
-        public event EventHandler<OrderAddedEventArgs> OrderAdded;
+        public event EventHandler<OnRecipeAddedEventArgs> OnRecipeAdded;
 
-        public class OrderAddedEventArgs : EventArgs
+        public class OnRecipeAddedEventArgs : EventArgs
         {
             public RecipeSO AddedRecipe;
+        }
+
+        /// <summary>
+        /// Event fired for a recipe handled by the player
+        /// </summary>
+        public event EventHandler<OnRecipeRemovedEventArgs> OnRecipeRemoved;
+
+        public class OnRecipeRemovedEventArgs : EventArgs
+        {
+            public RecipeSO RemovedRecipe;
         }
 
         /// <summary>
@@ -72,7 +83,7 @@ namespace KitchenChaosTutorial
 
                     //Add it to the list of currently waiting recipes
                     this.waitingRecipes.Add(recipe);
-                    this.OrderAdded?.Invoke(this, new OrderAddedEventArgs { AddedRecipe = recipe });
+                    this.OnRecipeAdded?.Invoke(this, new OnRecipeAddedEventArgs { AddedRecipe = recipe });
 
                     recipeSelectionTimer = 0.0f;
                 }
@@ -98,6 +109,7 @@ namespace KitchenChaosTutorial
                     //Ingredients match the recipe!
                     Debug.Log($"Ingredients match recipe {recipe.recipeName}!");
                     this.waitingRecipes.Remove(recipe);
+                    this.OnRecipeRemoved?.Invoke(sender: this, e: new OnRecipeRemovedEventArgs { RemovedRecipe = recipe });
                     return;
                 }
             }
@@ -127,6 +139,11 @@ namespace KitchenChaosTutorial
                 }
             }
             return true;
+        }
+
+        public List<RecipeSO> GetListOfWaitingRecipes()
+        {
+            return this.waitingRecipes;
         }
     }
 
