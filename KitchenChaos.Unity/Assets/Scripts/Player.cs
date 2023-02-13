@@ -52,6 +52,11 @@ namespace KitchenChaosTutorial
         }
 
         /// <summary>
+        /// Event fired for player moving
+        /// </summary>
+        public event EventHandler OnMovement;
+
+        /// <summary>
         /// Whether the player is moving
         /// </summary>
         public bool IsWalking { private set; get; }
@@ -200,8 +205,9 @@ namespace KitchenChaosTutorial
 
             this.IsWalking = movementDirection != Vector3.zero;
 
-            if (movementDirection!= Vector3.zero)
+            if (this.IsWalking)
             {
+                this.OnMovement?.Invoke(sender: this, EventArgs.Empty);
                 this.transform.position += movementDirection * movementDistance;
                 this.transform.forward = Vector3.Lerp(this.transform.forward, faceDirection, mRotateSpeed * Time.deltaTime);
             }
