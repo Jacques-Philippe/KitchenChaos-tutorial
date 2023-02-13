@@ -8,6 +8,19 @@ namespace KitchenChaosTutorial
 
     public class DeliveryCounter : BaseCounter
     {
+        public static DeliveryCounter Instance { private set; get; }
+
+        private void Start()
+        {
+            if (Instance == null) {
+                Instance = this;
+            }
+            else
+            {
+                Debug.LogError("There should be only one instance of the DeliveryCounter");
+            }
+        }
+
         public override void Interact(Player player)
         {
             KitchenObject playerKitchenObject = player.GetKitchenObject();

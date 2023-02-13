@@ -18,8 +18,8 @@ namespace KitchenChaosTutorial
 
         private void Start()
         {
-            DeliveryManager.Instance.OnRecipeAdded += Instance_OnRecipeAdded;
-            DeliveryManager.Instance.OnRecipeRemoved += Instance_OnRecipeRemoved;
+            DeliveryManager.Instance.OnOrderAdded += Instance_OnRecipeAdded;
+            DeliveryManager.Instance.OnOrderRemoved += Instance_OnRecipeRemoved;
 
             this.templateRecipeUI.SetActive(false);
         }

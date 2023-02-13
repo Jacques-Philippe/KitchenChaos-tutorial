@@ -22,12 +22,22 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// Event fired for a new recipe needs to be handled by the player
         /// </summary>
-        public event EventHandler OnRecipeAdded;
+        public event EventHandler OnOrderAdded;
 
         /// <summary>
         /// Event fired for a recipe handled by the player
         /// </summary>
-        public event EventHandler OnRecipeRemoved;
+        public event EventHandler OnOrderRemoved;
+
+        /// <summary>
+        /// Event fired for the player successfully completes an order
+        /// </summary>
+        public event EventHandler OnOrderSuccess;
+
+        /// <summary>
+        /// Event fired for the player unsuccessfully completes an order
+        /// </summary>
+        public event EventHandler OnOrderFailure;
 
         /// <summary>
         /// The time until the next recipe is selected
@@ -73,7 +83,7 @@ namespace KitchenChaosTutorial
 
                     //Add it to the list of currently waiting recipes
                     this.waitingRecipes.Add(recipe);
-                    this.OnRecipeAdded?.Invoke(this, EventArgs.Empty);
+                    this.OnOrderAdded?.Invoke(this, EventArgs.Empty);
 
                     recipeSelectionTimer = 0.0f;
                 }
@@ -99,14 +109,15 @@ namespace KitchenChaosTutorial
                     //Ingredients match the recipe!
                     Debug.Log($"Ingredients match recipe {recipe.recipeName}!");
                     this.waitingRecipes.Remove(recipe);
-                    this.OnRecipeRemoved?.Invoke(this, EventArgs.Empty);
+                    this.OnOrderRemoved?.Invoke(this, EventArgs.Empty);
+                    this.OnOrderSuccess?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
             //else if ingredients do not correspond to a recipe
+            this.OnOrderFailure?.Invoke(this, EventArgs.Empty);
 
-            Debug.Log("Ingredients do not match any recipes!");
-        }    
+        }
 
         /// <summary>
         /// Return true for incoming ingredients correspond to recipe
