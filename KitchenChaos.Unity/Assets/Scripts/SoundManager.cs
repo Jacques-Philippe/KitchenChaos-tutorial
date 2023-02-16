@@ -7,7 +7,21 @@ namespace KitchenChaosTutorial
 
     public class SoundManager : MonoBehaviour
     {
+        public static SoundManager Instance { private set; get; }
+
         [SerializeField] private AudioClipReferencesSO audioClipReferencesSO;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Debug.LogError("There should be only one instance of the SoundManager");
+            }
+        }
 
         private void Start()
         {
@@ -67,6 +81,11 @@ namespace KitchenChaosTutorial
         private void PlaySound(AudioClip clip, Vector3 position, float volume = 1.0f)
         {
             AudioSource.PlayClipAtPoint(clip: clip, position: position, volume: volume);
+        }
+
+        public void PlayFootstepSound(Vector3 position)
+        {
+            this.PlaySound(clipArray: this.audioClipReferencesSO.footstep, position);
         }
     }
 }
