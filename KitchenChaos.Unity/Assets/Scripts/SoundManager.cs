@@ -14,9 +14,16 @@ namespace KitchenChaosTutorial
             DeliveryManager.Instance.OnOrderSuccess += DeliveryManager_OnOrderSuccess;
             DeliveryManager.Instance.OnOrderFailure += DeliveryManager_OnOrderFailure;
             CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
-            Player.Instance.OnMovement += Player_OnMovement;
+            TrashCounter.OnAnyKitchenObjectTrashed += TrashCounter_OnAnyKitchenObjectTrashed;
             Player.Instance.OnPickedUpSomething += Player_OnPickedUpSomething;
             BaseCounter.OnSomethingPutDown += BaseCounter_OnSomethingPutDown;
+
+        }
+
+        private void TrashCounter_OnAnyKitchenObjectTrashed(object sender, System.EventArgs e)
+        {
+            Vector3 position = (sender as TrashCounter).transform.position;
+            this.PlaySound(clipArray: audioClipReferencesSO.trash, position);
         }
 
         private void BaseCounter_OnSomethingPutDown(object sender, System.EventArgs e)
