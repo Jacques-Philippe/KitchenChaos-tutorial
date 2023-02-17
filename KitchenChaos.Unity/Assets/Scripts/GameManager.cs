@@ -13,7 +13,7 @@ namespace KitchenChaosTutorial
         /// TODO delete me.<br />
         /// A debugging timer to keep track of the time since the game started
         /// </summary>
-        private float gameStartedTimer = 0.0f;
+        private float gameStartedTimer = TIME_TO_PLAY_BEFORE_GAME_OVER;
         /// <summary>
         /// TODO delete me.<br />
         /// A number of seconds to keep the game alive before ending it.
@@ -23,7 +23,7 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// A testing
         /// </summary>
-        private float gameStartingTimer = 0.0f;
+        private float gameStartingTimer = TIME_UNTIL_GAME_START;
 
         /// <summary>
         /// The seconds before the game starts
@@ -45,7 +45,7 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// Event fired for the game's state changed
         /// </summary>
-        public event EventHandler OnGameStateChanged;
+        public event EventHandler<GameStateChangedEventArgs> OnGameStateChanged;
         public class GameStateChangedEventArgs : EventArgs
         {
             /// <summary>
@@ -79,28 +79,28 @@ namespace KitchenChaosTutorial
             {
                 case State.GAME_STARTING:
                     {
-                        this.gameStartingTimer += Time.deltaTime;
-                        if (this.gameStartingTimer >= TIME_UNTIL_GAME_START)
+                        this.gameStartingTimer -= Time.deltaTime;
+                        if (this.gameStartingTimer <= 0.0f)
                         {
                             State newState = State.GAME_PLAYING;
                             this.state = newState;
                             this.OnGameStateChanged?.Invoke(this, e: new GameStateChangedEventArgs { newState = newState });
 
-                            this.gameStartingTimer = 0.0f;
+                            this.gameStartingTimer = TIME_UNTIL_GAME_START;
                         }
                         break;
                     }
                     
                 case State.GAME_PLAYING:
                     {
-                        this.gameStartedTimer += Time.deltaTime;
-                        if (this.gameStartedTimer >= TIME_TO_PLAY_BEFORE_GAME_OVER)
+                        this.gameStartedTimer -= Time.deltaTime;
+                        if (this.gameStartedTimer <= 0.0f)
                         {
                             State newState = State.GAME_OVER;
                             this.state = newState;
                             this.OnGameStateChanged?.Invoke(this, e: new GameStateChangedEventArgs { newState = newState });
 
-                            this.gameStartedTimer = 0.0f;
+                            this.gameStartedTimer = TIME_TO_PLAY_BEFORE_GAME_OVER;
 
                         }
                         break;
@@ -112,6 +112,10 @@ namespace KitchenChaosTutorial
             Debug.Log(state);
         }
 
+        public float GetGameStartingTimer()
+        {
+            return this.gameStartingTimer;
+        }
         public bool IsGameOver()
         {
             return this.state == State.GAME_OVER;
