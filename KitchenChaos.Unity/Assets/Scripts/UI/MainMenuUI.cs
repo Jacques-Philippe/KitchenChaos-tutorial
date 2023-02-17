@@ -17,6 +17,7 @@ namespace KitchenChaosTutorial
             playButton.onClick.AddListener(() =>
             {
                 //load the loading scene
+                Loader.Load(Loader.LOADING_SCENE);
             });
 
             //Quit the application for quit button clicked
