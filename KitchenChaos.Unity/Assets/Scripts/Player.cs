@@ -119,13 +119,27 @@ namespace KitchenChaosTutorial
         /// <param name="e"></param>
         private void OnInteraction(object sender, EventArgs e)
         {
-            this.mSelectedCounter?.Interact(player: this);
+            GameManager.State gameState = GameManager.Instance.state;
+
+            if (gameState == GameManager.State.GAME_PLAYING)
+            {
+                this.mSelectedCounter?.Interact(player: this);
+            }
         }
 
-
+        /// <summary>
+        /// Function to invoke on alternate interaction input received in <see cref="GameInput"/>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnAltInteract(object sender, EventArgs e)
         {
-            this.mSelectedCounter?.AlternateInteract(player: this);
+            GameManager.State gameState = GameManager.Instance.state;
+
+            if (gameState == GameManager.State.GAME_PLAYING)
+            {
+                this.mSelectedCounter?.AlternateInteract(player: this);
+            }
         }
 
         /// <summary>

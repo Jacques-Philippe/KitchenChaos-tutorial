@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,10 +9,6 @@ namespace KitchenChaosTutorial
 
     public class GameManager : MonoBehaviour
     {
-        /// <summary>
-        /// TODO delete me <br />
-        /// </summary>
-        [SerializeField] private bool isTesting;
         /// <summary>
         /// TODO delete me.<br />
         /// A debugging timer to keep track of the time since the game started
@@ -40,8 +37,36 @@ namespace KitchenChaosTutorial
             GAME_OVER
         }
 
+        /// <summary>
+        /// The game's current state
+        /// </summary>
         public State state { private set; get; }
 
+        /// <summary>
+        /// Event fired for the game's state changed
+        /// </summary>
+        public event EventHandler OnGameStateChanged;
+        public class GameStateChangedEventArgs : EventArgs
+        {
+            /// <summary>
+            /// The next state the game will be in
+            /// </summary>
+            public State newState;
+        }
+
+        public static GameManager Instance { private set; get; }
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Debug.LogError("There should be only one instance of GameManager");
+            }
+        }
 
         private void Start()
         {
@@ -57,7 +82,10 @@ namespace KitchenChaosTutorial
                         this.gameStartingTimer += Time.deltaTime;
                         if (this.gameStartingTimer >= TIME_UNTIL_GAME_START)
                         {
-                            this.state = State.GAME_PLAYING;
+                            State newState = State.GAME_PLAYING;
+                            this.state = newState;
+                            this.OnGameStateChanged?.Invoke(this, e: new GameStateChangedEventArgs { newState = newState });
+
                             this.gameStartingTimer = 0.0f;
                         }
                         break;
@@ -68,8 +96,12 @@ namespace KitchenChaosTutorial
                         this.gameStartedTimer += Time.deltaTime;
                         if (this.gameStartedTimer >= TIME_TO_PLAY_BEFORE_GAME_OVER)
                         {
-                            this.state = State.GAME_OVER;
+                            State newState = State.GAME_OVER;
+                            this.state = newState;
+                            this.OnGameStateChanged?.Invoke(this, e: new GameStateChangedEventArgs { newState = newState });
+
                             this.gameStartedTimer = 0.0f;
+
                         }
                         break;
                     }
@@ -78,6 +110,11 @@ namespace KitchenChaosTutorial
 
             }
             Debug.Log(state);
+        }
+
+        public bool IsGameOver()
+        {
+            return this.state == State.GAME_OVER;
         }
     }
 
