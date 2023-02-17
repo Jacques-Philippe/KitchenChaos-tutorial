@@ -57,6 +57,11 @@ namespace KitchenChaosTutorial
         /// </summary>
         private List<RecipeSO> waitingRecipes = new List<RecipeSO>();
 
+        /// <summary>
+        /// The amount of orders delivered successfully
+        /// </summary>
+        private int ordersDelivered = 0;
+
         private void Awake()
         {
             if (Instance == null)
@@ -111,6 +116,7 @@ namespace KitchenChaosTutorial
                     this.waitingRecipes.Remove(recipe);
                     this.OnOrderRemoved?.Invoke(this, EventArgs.Empty);
                     this.OnOrderSuccess?.Invoke(this, EventArgs.Empty);
+                    this.ordersDelivered++;
                     return;
                 }
             }
@@ -142,9 +148,22 @@ namespace KitchenChaosTutorial
             return true;
         }
 
+        /// <summary>
+        /// Return list of currently waiting orders
+        /// </summary>
+        /// <returns></returns>
         public List<RecipeSO> GetListOfWaitingRecipes()
         {
             return this.waitingRecipes;
+        }
+
+        /// <summary>
+        /// Return the number of orders which were delivered successfully
+        /// </summary>
+        /// <returns></returns>
+        public int GetOrdersDelivered()
+        {
+            return this.ordersDelivered;
         }
     }
 

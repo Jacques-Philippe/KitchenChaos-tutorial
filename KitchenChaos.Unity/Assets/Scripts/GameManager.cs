@@ -18,7 +18,7 @@ namespace KitchenChaosTutorial
         /// TODO delete me.<br />
         /// A number of seconds to keep the game alive before ending it.
         /// </summary>
-        private const float TIME_TO_PLAY_BEFORE_GAME_OVER = 10.0f;
+        private const float TIME_TO_PLAY_BEFORE_GAME_OVER = 30.0f;
 
         /// <summary>
         /// A testing
