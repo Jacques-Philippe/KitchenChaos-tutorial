@@ -112,6 +112,14 @@ namespace KitchenChaosTutorial
             Debug.Log(state);
         }
 
+        /// <summary>
+        /// Returns a value between 0 and 1 where 1 is at the beginning of the timer and 0 is at its end
+        /// </summary>
+        /// <returns></returns>
+        public float GetGamePlayingTimerNormalized()
+        {
+            return this.gameStartedTimer / TIME_TO_PLAY_BEFORE_GAME_OVER;
+        }
         public float GetGameStartingTimer()
         {
             return this.gameStartingTimer;
