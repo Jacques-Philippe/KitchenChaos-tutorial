@@ -22,8 +22,11 @@ namespace KitchenChaosTutorial
 
         private void Update()
         {
-            //if we're moving, set the animator to IsWalking true, else false.
-            this.mAnimator.SetBool(IS_WALKING, this.mPlayer.IsWalking);
+            if (mPlayer != null)
+            {
+                //if we're moving, set the animator to IsWalking true, else false.
+                mAnimator.SetBool(IS_WALKING, this.mPlayer.IsWalking);
+            }
         }
 
 
