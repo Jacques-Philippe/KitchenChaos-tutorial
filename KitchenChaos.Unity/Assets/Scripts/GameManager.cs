@@ -30,6 +30,13 @@ namespace KitchenChaosTutorial
         /// </summary>
         private const float TIME_UNTIL_GAME_START = 3.0f;
 
+        /// <summary>
+        /// Whether the game is paused
+        /// </summary>
+        private bool isPaused = false;
+
+        private float ORIGINAL_TIMESCALE;
+
         public enum State
         {
             GAME_STARTING,
@@ -56,6 +63,8 @@ namespace KitchenChaosTutorial
 
         public static GameManager Instance { private set; get; }
 
+
+
         private void Awake()
         {
             if (Instance == null)
@@ -66,12 +75,17 @@ namespace KitchenChaosTutorial
             {
                 Debug.LogError("There should be only one instance of GameManager");
             }
+
+            ORIGINAL_TIMESCALE = Time.timeScale;
         }
 
         private void Start()
         {
             state = State.GAME_STARTING;
+
+            GameInput.Instance.OnPause += GameInput_OnPause;
         }
+
 
         private void Update()
         {
@@ -113,6 +127,16 @@ namespace KitchenChaosTutorial
         }
 
         /// <summary>
+        /// Function invoked for game paused
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameInput_OnPause(object sender, EventArgs e)
+        {
+            this.TogglePause();
+        }
+
+        /// <summary>
         /// Returns a value between 0 and 1 where 1 is at the beginning of the timer and 0 is at its end
         /// </summary>
         /// <returns></returns>
@@ -127,6 +151,22 @@ namespace KitchenChaosTutorial
         public bool IsGameOver()
         {
             return this.state == State.GAME_OVER;
+        }
+
+        /// <summary>
+        /// Helper to pause the game.
+        /// </summary>
+        private void TogglePause()
+        {
+            this.isPaused = !this.isPaused;
+            if (this.isPaused)
+            {
+                Time.timeScale = 0.0f;
+            }
+            else
+            {
+                Time.timeScale = ORIGINAL_TIMESCALE;
+            }
         }
     }
 
