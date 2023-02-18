@@ -26,6 +26,8 @@ namespace KitchenChaosTutorial
             {
                 Application.Quit();
             });
+
+            Time.timeScale = 1.0f;
         }
 
     }

@@ -35,7 +35,8 @@ namespace KitchenChaosTutorial
         /// </summary>
         private bool isPaused = false;
 
-        private float ORIGINAL_TIMESCALE;
+        public event EventHandler OnGamePaused;
+        public event EventHandler OnGameUnpaused;
 
         public enum State
         {
@@ -75,15 +76,13 @@ namespace KitchenChaosTutorial
             {
                 Debug.LogError("There should be only one instance of GameManager");
             }
-
-            ORIGINAL_TIMESCALE = Time.timeScale;
         }
 
         private void Start()
         {
             state = State.GAME_STARTING;
 
-            GameInput.Instance.OnPause += GameInput_OnPause;
+            GameInput.Instance.OnPausePressed += GameInput_OnPause;
         }
 
 
@@ -156,16 +155,19 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// Helper to pause the game.
         /// </summary>
-        private void TogglePause()
+        public void TogglePause()
         {
             this.isPaused = !this.isPaused;
             if (this.isPaused)
             {
                 Time.timeScale = 0.0f;
+                this.OnGamePaused?.Invoke(sender: this, EventArgs.Empty);
             }
             else
             {
-                Time.timeScale = ORIGINAL_TIMESCALE;
+                Time.timeScale = 1.0f;
+                this.OnGameUnpaused?.Invoke(sender: this, EventArgs.Empty);
+
             }
         }
     }

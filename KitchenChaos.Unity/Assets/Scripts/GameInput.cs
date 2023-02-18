@@ -23,7 +23,7 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// Event fired on player pressed the pause input
         /// </summary>
-        public event EventHandler OnPause;
+        public event EventHandler OnPausePressed;
 
         public static GameInput Instance { private set; get; }
 
@@ -52,7 +52,7 @@ namespace KitchenChaosTutorial
         /// <param name="obj"></param>
         private void Pause_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            this.OnPause?.Invoke(this, EventArgs.Empty);
+            this.OnPausePressed?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
