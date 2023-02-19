@@ -13,6 +13,13 @@ namespace KitchenChaosTutorial
         /// </summary>
         public static event EventHandler OnAnyKitchenObjectTrashed;
 
+        /// <summary>
+        /// Function called to clear all subscribers of static event <see cref="OnAnyKitchenObjectTrashed"/>
+        /// </summary>
+        public static new void ResetStaticData()
+        {
+            OnAnyKitchenObjectTrashed = null;
+        }
         public override void Interact(Player player)
         {
             KitchenObject playerKitchenObject = player.GetKitchenObject();
