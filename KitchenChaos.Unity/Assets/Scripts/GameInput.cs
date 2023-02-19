@@ -45,6 +45,14 @@ namespace KitchenChaosTutorial
             playerInputActions.Player.AltInteract.performed += AltInteract_performed;
             playerInputActions.Player.Pause.performed += Pause_performed;
         }
+        private void OnDestroy()
+        {
+            playerInputActions.Player.Interact.performed -= Interact_performed;
+            playerInputActions.Player.AltInteract.performed -= AltInteract_performed;
+            playerInputActions.Player.Pause.performed -= Pause_performed;
+
+            playerInputActions.Dispose();
+        }
 
         /// <summary>
         /// Function invoked for Pause playeraction performed
