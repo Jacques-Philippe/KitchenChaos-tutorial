@@ -10,6 +10,8 @@ namespace KitchenChaosTutorial
         private void Awake()
         {
             BaseCounter.ResetStaticData();
+            CuttingCounter.ResetStaticData();
+
         }
     }
 }

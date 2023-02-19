@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEditor;
 using UnityEngine;
 
 namespace KitchenChaosTutorial
@@ -33,6 +34,13 @@ namespace KitchenChaosTutorial
         /// </summary>
         private int mCuts;
 
+        /// <summary>
+        /// Function called to clear all subscribers of static event <see cref="OnAnyCut"/>
+        /// </summary>
+        public static new void ResetStaticData()
+        {
+            OnAnyCut = null;
+        }
 
         /// <inheritdoc/>
         public override void Interact(Player player)
