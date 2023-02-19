@@ -20,7 +20,7 @@ namespace KitchenChaosTutorial
         public static event EventHandler OnAnyCut;
 
         /// <summary>
-        /// Event fired 
+        /// Event fired for player cut
         /// </summary>
         public event EventHandler OnCut;
 

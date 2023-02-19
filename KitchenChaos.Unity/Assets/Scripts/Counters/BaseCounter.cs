@@ -22,6 +22,14 @@ namespace KitchenChaosTutorial
         public static event EventHandler OnSomethingPutDown;
 
         /// <summary>
+        /// Function called to clear all subscribers of static event <see cref="OnSomethingPutDown"/>
+        /// </summary>
+        public static void ResetStaticData()
+        {
+            OnSomethingPutDown = null;
+        }
+
+        /// <summary>
         /// A function to determine how the counter will respond to player interaction
         /// </summary>
         /// <param name="player"></param>
@@ -35,6 +43,7 @@ namespace KitchenChaosTutorial
         {
             //do something
         }
+
 
         /// <inheritdoc/>
         public void ClearKitchenObject()

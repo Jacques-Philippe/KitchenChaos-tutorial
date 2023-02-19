@@ -122,7 +122,7 @@ namespace KitchenChaosTutorial
                     break;
 
             }
-            Debug.Log(state);
+            //Debug.Log(state);
         }
 
         /// <summary>
