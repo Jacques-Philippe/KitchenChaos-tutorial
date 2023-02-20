@@ -42,6 +42,11 @@ namespace KitchenChaosTutorial
 
         public static GameInput Instance { private set; get; }
 
+        /// <summary>
+        /// String used to identify player input rebindings in PlayerPrefs
+        /// </summary>
+        private const string PLAYER_PREFS_BINDINGS = "Input Bindings";
+
         private void Awake()
         {
             if (Instance == null)
@@ -50,7 +55,7 @@ namespace KitchenChaosTutorial
             }
             else
             {
-                Debug.LogError("There should eb only one instance of GameInput");
+                Debug.LogError("There should be only one instance of GameInput");
             }
 
             playerInputActions = new PlayerInputActions();
@@ -59,6 +64,13 @@ namespace KitchenChaosTutorial
             playerInputActions.Player.Interact.performed += Interact_performed;
             playerInputActions.Player.AltInteract.performed += AltInteract_performed;
             playerInputActions.Player.Pause.performed += Pause_performed;
+
+            //If player rebindings exist in player prefs, override the default
+            if (PlayerPrefs.HasKey(PLAYER_PREFS_BINDINGS))
+            {
+                string stringifiedBindings = PlayerPrefs.GetString(PLAYER_PREFS_BINDINGS);
+                playerInputActions.LoadBindingOverridesFromJson(stringifiedBindings);
+            }
         }
         private void OnDestroy()
         {
@@ -222,13 +234,13 @@ namespace KitchenChaosTutorial
             inputAction.PerformInteractiveRebinding(bindingIndex)
                 .OnComplete(callback =>
                 {
-                    //string oldBinding = callback.action.bindings[1].path;
-                    //string newBinding = callback.action.bindings[1].overridePath;
-                    //Debug.Log($"{oldBinding} -> {newBinding}");
-                    
                     callback.Dispose();
                     playerInputActions.Player.Enable();
                     onBindingComplete?.Invoke();
+
+                    //Save input rebinding to player prefs
+                    PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, value: inputAction.SaveBindingOverridesAsJson());
+                    PlayerPrefs.Save();
                 })
                 .Start();
         }
