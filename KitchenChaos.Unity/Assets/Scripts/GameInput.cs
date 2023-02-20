@@ -2,12 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace KitchenChaosTutorial
 {
 
     public class GameInput : MonoBehaviour
     {
+        public enum Bindings
+        {
+            Move_Up,
+            Move_Down,
+            Move_Left,
+            Move_Right,
+            Interact,
+            Interact_Alt,
+            Pause,
+        }
+
+        /// <summary>
+        /// Reference to the player input actions defined by the new input system
+        /// </summary>
         private PlayerInputActions playerInputActions;
 
         /// <summary>
@@ -87,9 +102,28 @@ namespace KitchenChaosTutorial
         public Vector2 GetPlayerMovementDirectionNormalized()
         {
             Vector2 movementInput = playerInputActions.Player.Move.ReadValue<Vector2>();
-            
+
             movementInput = movementInput.normalized;
             return movementInput;
+        }
+
+        public void RebindBinding(Bindings binding, Action onBindingComplete)
+        {
+            this.playerInputActions.Player.Disable();
+            
+
+
+            playerInputActions.Player.Move.PerformInteractiveRebinding(1)
+                .OnComplete(callback =>
+                {
+                    string oldBinding = callback.action.bindings[1].path;
+                    string newBinding = callback.action.bindings[1].overridePath;
+                    Debug.Log($"{oldBinding} -> {newBinding}");
+                    callback.Dispose();
+                    playerInputActions.Player.Enable();
+                    onBindingComplete?.Invoke();
+                })
+                .Start();
         }
     }
 }

@@ -8768,7 +8768,7 @@ MonoBehaviour:
   closeButton: {fileID: 1715474303}
   soundEffectsText: {fileID: 2065910630}
   musicText: {fileID: 1869283938}
-  pressToRebindKeyUI: {fileID: 0}
+  pressToRebindKeyUI: {fileID: 1259608244}
   moveUpRebindingButton: {fileID: 12568261}
 --- !u!1 &1817719308
 GameObject:

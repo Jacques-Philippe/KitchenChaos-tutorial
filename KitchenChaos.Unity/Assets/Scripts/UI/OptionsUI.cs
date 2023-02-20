@@ -19,6 +19,10 @@ namespace KitchenChaosTutorial
         [SerializeField] private TextMeshProUGUI soundEffectsText;
         [SerializeField] private TextMeshProUGUI musicText;
 
+        [SerializeField] private Transform pressToRebindKeyUI;
+
+        [SerializeField] private Button moveUpRebindingButton;
+
         private const string soundEffectsButtonTextPrefix = "Sound Effects: ";
         private const string musicButtonTextPrefix = "Music: ";
 
@@ -49,6 +53,13 @@ namespace KitchenChaosTutorial
                 pauseUI.Show();
             });
 
+            this.moveUpRebindingButton.onClick.AddListener(() => {
+                this.ShowPressToRebindKeyUI();
+                //Listen for rebinding key
+                GameInput.Instance.RebindBinding(GameInput.Bindings.Move_Up, onBindingComplete: HidePressToRebindKeyUI);
+            });
+
+
             //Hide the options UI for game unpaused (i.e. player hits Esc)
             GameManager.Instance.OnGameUnpaused += GameManager_OnGameUnpaused;
 
@@ -57,6 +68,7 @@ namespace KitchenChaosTutorial
             this.UpdateMusicText();
 
             this.Hide();
+            this.HidePressToRebindKeyUI();
         }
 
         private void GameManager_OnGameUnpaused(object sender, System.EventArgs e)
@@ -92,6 +104,16 @@ namespace KitchenChaosTutorial
         private void Hide()
         {
             this.gameObject.SetActive(false);
+        }
+
+        private void ShowPressToRebindKeyUI()
+        {
+            this.pressToRebindKeyUI.gameObject.SetActive(true);
+        }
+
+        private void HidePressToRebindKeyUI()
+        {
+            this.pressToRebindKeyUI.gameObject.SetActive(false);
         }
     }
 
