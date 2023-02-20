@@ -42,6 +42,8 @@ namespace KitchenChaosTutorial
             //Reset text
             this.UpdateSoundEffectsText();
             this.UpdateMusicText();
+
+            this.Hide();
         }
 
         /// <summary>
@@ -62,6 +64,16 @@ namespace KitchenChaosTutorial
             //multiply volume by 10 for a nicer visual format
             int volume = (int)Mathf.Round(MusicManager.Instance.GetVolume() * 10.0f);
             this.musicText.text = musicButtonTextPrefix + volume;
+        }
+
+        public void Show()
+        {
+            this.gameObject.SetActive(true);
+        }
+
+        private void Hide()
+        {
+            this.gameObject.SetActive(false);
         }
     }
 
