@@ -34,19 +34,34 @@ namespace KitchenChaosTutorial
             this.musicButton.onClick.AddListener(() =>
             {
                 //Affect volume
-
+                MusicManager.Instance.UpdateVolume(musicUpdateIncrement);
                 //Reset text
+                this.UpdateMusicText();
             });
 
             //Reset text
             this.UpdateSoundEffectsText();
+            this.UpdateMusicText();
         }
 
+        /// <summary>
+        /// Helper to update the contents of <see cref="soundEffectsText"/> with <see cref="SoundManager"/> volume state
+        /// </summary>
         private void UpdateSoundEffectsText()
         {
             //multiply volume by 10 for a nicer visual format
             int volume = (int)Mathf.Round(SoundManager.Instance.GetVolume() * 10.0f);
             this.soundEffectsText.text = soundEffectsButtonTextPrefix + volume;
+        }
+
+        /// <summary>
+        /// Helper to update the contents of <see cref="musicText"/> with <see cref="MusicManager"/> volume state
+        /// </summary>
+        private void UpdateMusicText()
+        {
+            //multiply volume by 10 for a nicer visual format
+            int volume = (int)Mathf.Round(MusicManager.Instance.GetVolume() * 10.0f);
+            this.musicText.text = musicButtonTextPrefix + volume;
         }
     }
 
