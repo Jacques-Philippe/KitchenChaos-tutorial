@@ -13,10 +13,16 @@ namespace KitchenChaosTutorial
 
         [SerializeField] private AudioClipReferencesSO audioClipReferencesSO;
 
+        private const string PLAYERPREFS_SFX_VOLUME = "SFX Volume";
+
         /// <summary>
-        /// The value of overall SFX volume
+        /// The volume of the SFX
         /// </summary>
-        private float volume = 0.3f;
+        private float volume = VOLUME_DEFAULT_VALUE;
+        /// <summary>
+        /// The default value of the volume
+        /// </summary>
+        private const float VOLUME_DEFAULT_VALUE = 0.3f;
 
         private void Awake()
         {
@@ -38,6 +44,8 @@ namespace KitchenChaosTutorial
             TrashCounter.OnAnyKitchenObjectTrashed += TrashCounter_OnAnyKitchenObjectTrashed;
             Player.Instance.OnPickedUpSomething += Player_OnPickedUpSomething;
             BaseCounter.OnSomethingPutDown += BaseCounter_OnSomethingPutDown;
+
+            this.volume = PlayerPrefs.GetFloat(key: PLAYERPREFS_SFX_VOLUME, defaultValue: VOLUME_DEFAULT_VALUE);
         }
 
         private void TrashCounter_OnAnyKitchenObjectTrashed(object sender, System.EventArgs e)
@@ -106,6 +114,8 @@ namespace KitchenChaosTutorial
             {
                 this.volume = 0.0f;
             }
+
+            PlayerPrefs.SetFloat(key: PLAYERPREFS_SFX_VOLUME, value: this.volume);
         }
 
         public float GetVolume() { return this.volume; }

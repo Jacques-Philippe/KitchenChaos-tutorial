@@ -19,7 +19,7 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// The default value of the volume
         /// </summary>
-        private const float VOLUME_DEFAULT_VALUE = 1.0f;
+        private const float VOLUME_DEFAULT_VALUE = 0.6f;
         /// <summary>
         /// Reference to the audiosource component the game music is attached to
         /// </summary>
