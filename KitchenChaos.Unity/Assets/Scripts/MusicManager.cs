@@ -42,6 +42,7 @@ namespace KitchenChaosTutorial
         {
             audioSource = GetComponent<AudioSource>();
             this.volume = PlayerPrefs.GetFloat(key: PLAYERPREFS_MUSIC_VOLUME, defaultValue: VOLUME_DEFAULT_VALUE);
+            this.audioSource.volume = this.volume;
         }
 
         /// <summary>
