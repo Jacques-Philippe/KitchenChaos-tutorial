@@ -4,12 +4,19 @@ using UnityEngine;
 
 namespace KitchenChaosTutorial
 {
-
+    /// <summary>
+    /// A class to manage all game SFX
+    /// </summary>
     public class SoundManager : MonoBehaviour
     {
         public static SoundManager Instance { private set; get; }
 
         [SerializeField] private AudioClipReferencesSO audioClipReferencesSO;
+
+        /// <summary>
+        /// The value of overall SFX volume
+        /// </summary>
+        private float volume = 0.3f;
 
         private void Awake()
         {
@@ -31,7 +38,6 @@ namespace KitchenChaosTutorial
             TrashCounter.OnAnyKitchenObjectTrashed += TrashCounter_OnAnyKitchenObjectTrashed;
             Player.Instance.OnPickedUpSomething += Player_OnPickedUpSomething;
             BaseCounter.OnSomethingPutDown += BaseCounter_OnSomethingPutDown;
-
         }
 
         private void TrashCounter_OnAnyKitchenObjectTrashed(object sender, System.EventArgs e)
@@ -72,20 +78,36 @@ namespace KitchenChaosTutorial
             this.PlaySound(clipArray: this.audioClipReferencesSO.deliverySuccess, position: DeliveryCounter.Instance.transform.position);
         }
 
-        private void PlaySound(AudioClip[] clipArray, Vector3 position, float volume = 1.0f)
+        private void PlaySound(AudioClip[] clipArray, Vector3 position, float volumeMultiplier = 1.0f)
         {
             int index = Random.Range(minInclusive: 0, maxExclusive: clipArray.Length);
-            AudioSource.PlayClipAtPoint(clip: clipArray[index], position: position, volume: volume);
+            this.PlaySound(clip: clipArray[index], position: position, volumeMultiplier: volumeMultiplier);
         }
         
-        private void PlaySound(AudioClip clip, Vector3 position, float volume = 1.0f)
+        private void PlaySound(AudioClip clip, Vector3 position, float volumeMultiplier = 1.0f)
         {
-            AudioSource.PlayClipAtPoint(clip: clip, position: position, volume: volume);
+            AudioSource.PlayClipAtPoint(clip: clip, position: position, volume: volumeMultiplier * this.volume);
         }
 
         public void PlayFootstepSound(Vector3 position)
         {
             this.PlaySound(clipArray: this.audioClipReferencesSO.footstep, position);
         }
+
+        /// <summary>
+        /// Helper to update the SFX volume externally by <paramref name="increment"/> <br />
+        /// If <see cref="volume"/> exceeds 1, resets to 0.
+        /// </summary>
+        /// <param name="increment"></param>
+        public void UpdateVolume(float increment)
+        {
+            this.volume += increment;
+            if (this.volume > 1.0f)
+            {
+                this.volume = 0.0f;
+            }
+        }
+
+        public float GetVolume() { return this.volume; }
     }
 }

@@ -20,6 +20,8 @@ namespace KitchenChaosTutorial
         {
             OnAnyKitchenObjectTrashed = null;
         }
+
+        /// <inheritdoc/>
         public override void Interact(Player player)
         {
             KitchenObject playerKitchenObject = player.GetKitchenObject();
