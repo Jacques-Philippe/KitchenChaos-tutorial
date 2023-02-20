@@ -165,19 +165,70 @@ namespace KitchenChaosTutorial
         public void RebindBinding(Bindings binding, Action onBindingComplete)
         {
             this.playerInputActions.Player.Disable();
-            
 
+            InputAction inputAction;
+            int bindingIndex;
 
-            playerInputActions.Player.Move.PerformInteractiveRebinding(1)
+            switch (binding)
+            {
+                case Bindings.Move_Up:
+                    {
+                        inputAction = playerInputActions.Player.Move;
+                        bindingIndex = 1;
+                        break;
+                    }
+                case Bindings.Move_Down:
+                    {
+                        inputAction = playerInputActions.Player.Move;
+                        bindingIndex = 2;
+                        break;
+                    }
+                case Bindings.Move_Left:
+                    {
+                        inputAction = playerInputActions.Player.Move;
+                        bindingIndex = 3;
+                        break;
+                    }
+                case Bindings.Move_Right:
+                    {
+                        inputAction = playerInputActions.Player.Move;
+                        bindingIndex = 4;
+                        break;
+                    }
+                case Bindings.Interact:
+                    {
+                        inputAction = playerInputActions.Player.Interact;
+                        bindingIndex = 0;
+                        break;
+                    }
+                case Bindings.Interact_Alt:
+                    {
+                        inputAction = playerInputActions.Player.AltInteract;
+                        bindingIndex = 0;
+                        break;
+                    }
+                case Bindings.Pause:
+                    {
+                        inputAction = playerInputActions.Player.Pause;
+                        bindingIndex = 0;
+                        break;
+                    }
+                default:
+                    {
+                        throw new Exception($"Received unexpected value {binding} in GameInput Rebind");
+                    }
+            }
+
+            inputAction.PerformInteractiveRebinding(bindingIndex)
                 .OnComplete(callback =>
                 {
-                    string oldBinding = callback.action.bindings[1].path;
-                    string newBinding = callback.action.bindings[1].overridePath;
-                    Debug.Log($"{oldBinding} -> {newBinding}");
+                    //string oldBinding = callback.action.bindings[1].path;
+                    //string newBinding = callback.action.bindings[1].overridePath;
+                    //Debug.Log($"{oldBinding} -> {newBinding}");
                     
+                    callback.Dispose();
                     playerInputActions.Player.Enable();
                     onBindingComplete?.Invoke();
-                    callback.Dispose();
                 })
                 .Start();
         }

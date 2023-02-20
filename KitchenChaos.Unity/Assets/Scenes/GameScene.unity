@@ -8770,7 +8770,19 @@ MonoBehaviour:
   musicText: {fileID: 1869283938}
   pressToRebindKeyUI: {fileID: 1259608244}
   moveUpRebindingButton: {fileID: 12568261}
+  moveDownRebindingButton: {fileID: 660094539}
+  moveLeftRebindingButton: {fileID: 74686989}
+  moveRightRebindingButton: {fileID: 591699491}
+  interactRebindingButton: {fileID: 1001254354}
+  interactAltRebindingButton: {fileID: 1979507368}
+  pauseRebindingButton: {fileID: 1534865673}
   moveUpRebindingKeyText: {fileID: 824569326}
+  moveDownRebindingKeyText: {fileID: 1780180494}
+  moveLeftRebindingKeyText: {fileID: 1758772062}
+  moveRightRebindingKeyText: {fileID: 1995659013}
+  interactRebindingKeyText: {fileID: 373843290}
+  interactAltRebindingKeyText: {fileID: 1817719310}
+  pauseRebindingKeyText: {fileID: 1111187668}
 --- !u!1 &1817719308
 GameObject:
   m_ObjectHideFlags: 0
