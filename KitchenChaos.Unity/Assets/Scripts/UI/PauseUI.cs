@@ -47,7 +47,7 @@ namespace KitchenChaosTutorial
             this.Show();
         }
 
-        private void Show()
+        public void Show()
         {
             this.gameObject.SetActive(true);
         }

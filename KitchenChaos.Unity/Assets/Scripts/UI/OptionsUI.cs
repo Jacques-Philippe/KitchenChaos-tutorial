@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,11 @@ namespace KitchenChaosTutorial
 
     public class OptionsUI : MonoBehaviour
     {
+        [SerializeField] private PauseUI pauseUI;
+
         [SerializeField] private Button soundEffectsButton;
         [SerializeField] private Button musicButton;
+        [SerializeField] private Button closeButton;
 
         [SerializeField] private TextMeshProUGUI soundEffectsText;
         [SerializeField] private TextMeshProUGUI musicText;
@@ -37,6 +41,12 @@ namespace KitchenChaosTutorial
                 MusicManager.Instance.UpdateVolume(musicUpdateIncrement);
                 //Reset text
                 this.UpdateMusicText();
+            });
+
+            this.closeButton.onClick.AddListener(() =>
+            {
+                this.Hide();
+                pauseUI.Show();
             });
 
             //Reset text
