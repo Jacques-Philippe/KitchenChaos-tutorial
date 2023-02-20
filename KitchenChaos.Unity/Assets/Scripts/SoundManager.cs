@@ -116,6 +116,7 @@ namespace KitchenChaosTutorial
             }
 
             PlayerPrefs.SetFloat(key: PLAYERPREFS_SFX_VOLUME, value: this.volume);
+            PlayerPrefs.Save();
         }
 
         public float GetVolume() { return this.volume; }

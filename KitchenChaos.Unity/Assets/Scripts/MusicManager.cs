@@ -61,6 +61,7 @@ namespace KitchenChaosTutorial
             this.audioSource.volume = this.volume;
 
             PlayerPrefs.SetFloat(key: PLAYERPREFS_MUSIC_VOLUME, value: this.volume);
+            PlayerPrefs.Save();
         }
 
         public float GetVolume() { return this.volume; }
