@@ -49,10 +49,18 @@ namespace KitchenChaosTutorial
                 pauseUI.Show();
             });
 
+            //Hide the options UI for game unpaused (i.e. player hits Esc)
+            GameManager.Instance.OnGameUnpaused += GameManager_OnGameUnpaused;
+
             //Reset text
             this.UpdateSoundEffectsText();
             this.UpdateMusicText();
 
+            this.Hide();
+        }
+
+        private void GameManager_OnGameUnpaused(object sender, System.EventArgs e)
+        {
             this.Hide();
         }
 
