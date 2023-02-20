@@ -10,6 +10,9 @@ namespace KitchenChaosTutorial
     {
         [SerializeField] private Button resumeButton;
         [SerializeField] private Button quitButton;
+        [SerializeField] private Button optionsButton;
+
+        [SerializeField] private OptionsUI optionsUI;
 
         private void Start()
         {
@@ -24,6 +27,11 @@ namespace KitchenChaosTutorial
             quitButton.onClick.AddListener(() =>
             {
                 Loader.Load(Loader.MAIN_MENU_SCENE);
+            });
+            optionsButton.onClick.AddListener(() =>
+            {
+                this.Hide();
+                optionsUI.Show();
             });
 
             this.Hide();
