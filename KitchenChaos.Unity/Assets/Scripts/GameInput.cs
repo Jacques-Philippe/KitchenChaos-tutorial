@@ -107,6 +107,61 @@ namespace KitchenChaosTutorial
             return movementInput;
         }
 
+        /// <summary>
+        /// Public-facing function to return the corresponding mapped input key given the <paramref name="binding"/>. <br />
+        /// For instance, for binding Move_Up, should return "W" with default mappings.
+        /// </summary>
+        /// <param name="binding"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public string GetBindingDisplayString(Bindings binding)
+        {
+            //Note in the following Player.Move[0] is a composite binding, and contains our WASD binding
+            //Move.bindings[1] is our W binding
+            //Move.bindings[2] is our S binding, and so on
+
+            switch (binding)
+            {
+                case Bindings.Move_Up:
+                    {
+                        return playerInputActions.Player.Move.bindings[1].ToDisplayString();
+                    }
+                case Bindings.Move_Down:
+                    {
+                        return playerInputActions.Player.Move.bindings[2].ToDisplayString();
+                    }
+                case Bindings.Move_Left:
+                    {
+                        return playerInputActions.Player.Move.bindings[3].ToDisplayString();
+                    }
+                case Bindings.Move_Right:
+                    {
+                        return playerInputActions.Player.Move.bindings[4].ToDisplayString();
+                    }
+                case Bindings.Interact:
+                    {
+                        return playerInputActions.Player.Interact.bindings[0].ToDisplayString();
+                    }
+                case Bindings.Interact_Alt:
+                    {
+                        return playerInputActions.Player.AltInteract.bindings[0].ToDisplayString();
+                    }
+                case Bindings.Pause:
+                    {
+                        return playerInputActions.Player.Pause.bindings[0].ToDisplayString();
+                    }
+                default:
+                    {
+                        throw new Exception($"Received unexpected value {binding} in GameInput");
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Public-facing function to rebind input key mappings
+        /// </summary>
+        /// <param name="binding"></param>
+        /// <param name="onBindingComplete"></param>
         public void RebindBinding(Bindings binding, Action onBindingComplete)
         {
             this.playerInputActions.Player.Disable();
@@ -119,9 +174,10 @@ namespace KitchenChaosTutorial
                     string oldBinding = callback.action.bindings[1].path;
                     string newBinding = callback.action.bindings[1].overridePath;
                     Debug.Log($"{oldBinding} -> {newBinding}");
-                    callback.Dispose();
+                    
                     playerInputActions.Player.Enable();
                     onBindingComplete?.Invoke();
+                    callback.Dispose();
                 })
                 .Start();
         }

@@ -21,7 +21,15 @@ namespace KitchenChaosTutorial
 
         [SerializeField] private Transform pressToRebindKeyUI;
 
+        /// <summary>
+        /// The button the user clicks when they want to rebind the move up button
+        /// </summary>
         [SerializeField] private Button moveUpRebindingButton;
+        /// <summary>
+        /// The text element responsible for showing the input mapped to move up
+        /// </summary>
+        [SerializeField] private TextMeshProUGUI moveUpRebindingKeyText;
+
 
         private const string soundEffectsButtonTextPrefix = "Sound Effects: ";
         private const string musicButtonTextPrefix = "Music: ";
@@ -54,9 +62,14 @@ namespace KitchenChaosTutorial
             });
 
             this.moveUpRebindingButton.onClick.AddListener(() => {
+                //Show UI telling user to press the key to rebind to
                 this.ShowPressToRebindKeyUI();
-                //Listen for rebinding key
-                GameInput.Instance.RebindBinding(GameInput.Bindings.Move_Up, onBindingComplete: HidePressToRebindKeyUI);
+                //On binding complete, hide the UI
+                GameInput.Instance.RebindBinding(GameInput.Bindings.Move_Up, onBindingComplete: () =>
+                {
+                    this.HidePressToRebindKeyUI();
+                    this.UpdateVisual();
+                });
             });
 
 
@@ -94,6 +107,19 @@ namespace KitchenChaosTutorial
             //multiply volume by 10 for a nicer visual format
             int volume = (int)Mathf.Round(MusicManager.Instance.GetVolume() * 10.0f);
             this.musicText.text = musicButtonTextPrefix + volume;
+        }
+
+        private void UpdateVisual()
+        {
+            //multiply volume by 10 for a nicer visual format
+            int musicVolume = (int)Mathf.Round(MusicManager.Instance.GetVolume() * 10.0f);
+            this.musicText.text = musicButtonTextPrefix + musicVolume;
+
+            //multiply volume by 10 for a nicer visual format
+            int sfxVolume = (int)Mathf.Round(SoundManager.Instance.GetVolume() * 10.0f);
+            this.soundEffectsText.text = soundEffectsButtonTextPrefix + sfxVolume;
+
+            this.moveUpRebindingKeyText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Move_Up);
         }
 
         public void Show()

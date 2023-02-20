@@ -8770,6 +8770,7 @@ MonoBehaviour:
   musicText: {fileID: 1869283938}
   pressToRebindKeyUI: {fileID: 1259608244}
   moveUpRebindingButton: {fileID: 12568261}
+  moveUpRebindingKeyText: {fileID: 824569326}
 --- !u!1 &1817719308
 GameObject:
   m_ObjectHideFlags: 0
