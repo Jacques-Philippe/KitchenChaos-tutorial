@@ -15,9 +15,16 @@ namespace KitchenChaosTutorial
         /// <summary>
         /// The volume of the music
         /// </summary>
-        private float volume = 0.3f;
-
+        private float volume = VOLUME_DEFAULT_VALUE;
+        /// <summary>
+        /// The default value of the volume
+        /// </summary>
+        private const float VOLUME_DEFAULT_VALUE = 1.0f;
+        /// <summary>
+        /// Reference to the audiosource component the game music is attached to
+        /// </summary>
         private AudioSource audioSource;
+        private const string PLAYERPREFS_MUSIC_VOLUME = "Music Volume";
 
         private void Awake()
         {
@@ -34,6 +41,7 @@ namespace KitchenChaosTutorial
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            this.volume = PlayerPrefs.GetFloat(key: PLAYERPREFS_MUSIC_VOLUME, defaultValue: VOLUME_DEFAULT_VALUE);
         }
 
         /// <summary>
@@ -50,6 +58,8 @@ namespace KitchenChaosTutorial
             }
 
             this.audioSource.volume = this.volume;
+
+            PlayerPrefs.SetFloat(key: PLAYERPREFS_MUSIC_VOLUME, value: this.volume);
         }
 
         public float GetVolume() { return this.volume; }
