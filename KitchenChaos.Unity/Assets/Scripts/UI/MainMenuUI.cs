@@ -28,6 +28,8 @@ namespace KitchenChaosTutorial
             });
 
             Time.timeScale = 1.0f;
+            //Mark as active the Play button for controller navigation
+            playButton.Select();
         }
 
     }
