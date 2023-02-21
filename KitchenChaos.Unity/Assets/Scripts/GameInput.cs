@@ -18,6 +18,9 @@ namespace KitchenChaosTutorial
             Interact,
             Interact_Alt,
             Pause,
+            Gamepad_Interact,
+            Gamepad_Interact_Alt,
+            Gamepad_Pause,
         }
 
         /// <summary>
@@ -162,6 +165,18 @@ namespace KitchenChaosTutorial
                     {
                         return playerInputActions.Player.Pause.bindings[0].ToDisplayString();
                     }
+                case Bindings.Gamepad_Interact:
+                    {
+                        return playerInputActions.Player.Interact.bindings[1].ToDisplayString();
+                    }
+                case Bindings.Gamepad_Interact_Alt:
+                    {
+                        return playerInputActions.Player.AltInteract.bindings[1].ToDisplayString();
+                    }
+                case Bindings.Gamepad_Pause:
+                    {
+                        return playerInputActions.Player.Pause.bindings[1].ToDisplayString();
+                    }
                 default:
                     {
                         throw new Exception($"Received unexpected value {binding} in GameInput");
@@ -223,6 +238,24 @@ namespace KitchenChaosTutorial
                     {
                         inputAction = playerInputActions.Player.Pause;
                         bindingIndex = 0;
+                        break;
+                    }
+                case Bindings.Gamepad_Interact:
+                    {
+                        inputAction = playerInputActions.Player.Interact;
+                        bindingIndex = 1;
+                        break;
+                    }
+                case Bindings.Gamepad_Interact_Alt:
+                    {
+                        inputAction = playerInputActions.Player.AltInteract;
+                        bindingIndex = 1;
+                        break;
+                    }
+                case Bindings.Gamepad_Pause:
+                    {
+                        inputAction = playerInputActions.Player.Pause;
+                        bindingIndex = 1;
                         break;
                     }
                 default:
