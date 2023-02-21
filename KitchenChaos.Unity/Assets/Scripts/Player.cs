@@ -202,7 +202,7 @@ namespace KitchenChaosTutorial
 
             float movementDistance = this.mSpeed * Time.deltaTime;
 
-            if (IsPlayerMovementObstructed(movementDirection: movementDirection, movementDistance: movementDistance))
+            if (Mathf.Abs(movementDirection.x) > 0.5f && IsPlayerMovementObstructed(movementDirection: movementDirection, movementDistance: movementDistance))
             {
                 Vector3 movementDirectionX = new Vector3(movementDirection.x, 0.0f, 0.0f).normalized;
 
@@ -211,12 +211,12 @@ namespace KitchenChaosTutorial
                 {
                     movementDirection = movementDirectionX;
                 }
-                //else the player cannot move in Z, so try to move in Z
+                //else the player cannot move in X, so try to move in Z
                 else
                 {
                     Vector3 movementDirectionZ = new Vector3(0.0f, 0.0f, movementDirection.z).normalized;
                     //if the player can move in Z, move in Z
-                    if (!IsPlayerMovementObstructed(movementDirection: movementDirectionZ, movementDistance: movementDistance))
+                    if (Mathf.Abs(movementDirection.z) > 0.5f && !IsPlayerMovementObstructed(movementDirection: movementDirectionZ, movementDistance: movementDistance))
                     {
                         movementDirection = movementDirectionZ;
                     }
