@@ -50,6 +50,8 @@ namespace KitchenChaosTutorial
         public void Show()
         {
             this.gameObject.SetActive(true);
+            //Mark resume button as currently active button, for controller navigation
+            this.resumeButton.Select();
         }
 
         private void Hide()

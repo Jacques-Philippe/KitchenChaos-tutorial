@@ -179,6 +179,8 @@ namespace KitchenChaosTutorial
         public void Show()
         {
             this.gameObject.SetActive(true);
+            //Mark SFX button as currently active button, for controller navigation
+            this.soundEffectsButton.Select();
         }
 
         private void Hide()
