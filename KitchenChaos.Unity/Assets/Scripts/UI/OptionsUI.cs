@@ -31,6 +31,9 @@ namespace KitchenChaosTutorial
         [SerializeField] private Button interactRebindingButton;
         [SerializeField] private Button interactAltRebindingButton;
         [SerializeField] private Button pauseRebindingButton;
+        [SerializeField] private Button gamepadInteractRebindingButton;
+        [SerializeField] private Button gamepadInteractAltRebindingButton;
+        [SerializeField] private Button gamepadPauseRebindingButton;
         /// <summary>
         /// The text element responsible for showing the input mapped to move up
         /// </summary>
@@ -41,6 +44,9 @@ namespace KitchenChaosTutorial
         [SerializeField] private TextMeshProUGUI interactRebindingKeyText;
         [SerializeField] private TextMeshProUGUI interactAltRebindingKeyText;
         [SerializeField] private TextMeshProUGUI pauseRebindingKeyText;
+        [SerializeField] private TextMeshProUGUI gamepadInteractRebindingText;
+        [SerializeField] private TextMeshProUGUI gamepadInteractAltRebindingText;
+        [SerializeField] private TextMeshProUGUI gamepadPauseRebindingText;
 
         /// <summary>
         /// The text prefix preceding the number on the SFX button
@@ -86,6 +92,9 @@ namespace KitchenChaosTutorial
             this.interactRebindingButton.onClick.AddListener(() => this.Rebind(GameInput.Bindings.Interact));
             this.interactAltRebindingButton.onClick.AddListener(() => this.Rebind(GameInput.Bindings.Interact_Alt));
             this.pauseRebindingButton.onClick.AddListener(() => this.Rebind(GameInput.Bindings.Pause));
+            this.gamepadInteractRebindingButton.onClick.AddListener(() => this.Rebind(GameInput.Bindings.Gamepad_Interact));
+            this.gamepadInteractAltRebindingButton.onClick.AddListener(() => this.Rebind(GameInput.Bindings.Gamepad_Interact_Alt));
+            this.gamepadPauseRebindingButton.onClick.AddListener(() => this.Rebind(GameInput.Bindings.Gamepad_Pause));
 
 
             //Hide the options UI for game unpaused (i.e. player hits Esc)
@@ -157,9 +166,14 @@ namespace KitchenChaosTutorial
             this.moveDownRebindingKeyText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Move_Down);
             this.moveLeftRebindingKeyText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Move_Left);
             this.moveRightRebindingKeyText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Move_Right);
+            
             this.interactRebindingKeyText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Interact);
             this.interactAltRebindingKeyText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Interact_Alt);
             this.pauseRebindingKeyText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Pause);
+
+            this.gamepadInteractRebindingText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Gamepad_Interact);
+            this.gamepadInteractAltRebindingText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Gamepad_Interact_Alt);
+            this.gamepadPauseRebindingText.text = GameInput.Instance.GetBindingDisplayString(GameInput.Bindings.Gamepad_Pause);
         }
 
         public void Show()
