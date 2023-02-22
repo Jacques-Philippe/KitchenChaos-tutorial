@@ -89,15 +89,6 @@ namespace KitchenChaosTutorial
             GameInput.Instance.OnInteract += GameInput_OnInteract;
         }
 
-        private void GameInput_OnInteract(object sender, EventArgs e)
-        {
-            if (this.IsWaitingForGameStart())
-            {
-                State newState = State.GAME_STARTING;
-                this.state = newState;
-                this.OnGameStateChanged?.Invoke(this, e: new GameStateChangedEventArgs { newState = newState });
-            }
-        }
 
         private void Update()
         {
@@ -142,6 +133,17 @@ namespace KitchenChaosTutorial
             //Debug.Log(state);
         }
 
+
+        private void GameInput_OnInteract(object sender, EventArgs e)
+        {
+            if (this.IsWaitingForGameStart())
+            {
+                State newState = State.GAME_STARTING;
+                this.state = newState;
+                this.OnGameStateChanged?.Invoke(this, e: new GameStateChangedEventArgs { newState = newState });
+            }
+        }
+
         /// <summary>
         /// Function invoked for game paused
         /// </summary>
@@ -149,8 +151,12 @@ namespace KitchenChaosTutorial
         /// <param name="e"></param>
         private void GameInput_OnPause(object sender, EventArgs e)
         {
-            this.TogglePause();
+            if (this.IsGameStarted() || this.IsGameStarting())
+            {
+                this.TogglePause();
+            }
         }
+
 
         public bool IsWaitingForGameStart()
         {
@@ -162,6 +168,10 @@ namespace KitchenChaosTutorial
             return this.state == State.GAME_STARTING;
         }
 
+        public bool IsGameStarted()
+        {
+            return this.state == State.GAME_PLAYING;
+        }
 
         /// <summary>
         /// Returns a value between 0 and 1 where 1 is at the beginning of the timer and 0 is at its end

@@ -77,7 +77,7 @@ namespace KitchenChaosTutorial
         private void Update()
         {
             //if there are less than the max number of active recipes
-            if (waitingRecipes.Count < maxActiveRecipeAmount)
+            if (GameManager.Instance.IsGameStarted() && waitingRecipes.Count < maxActiveRecipeAmount)
             {
                 //if recipe selection timer is greater than the delay
                 if (recipeSelectionTimer >= recipeSelectionDelay)
