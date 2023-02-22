@@ -43,6 +43,11 @@ namespace KitchenChaosTutorial
         /// </summary>
         public event EventHandler OnPausePressed;
 
+        /// <summary>
+        /// Event fired for input rebinding performed
+        /// </summary>
+        public event EventHandler OnRebindingComplete;
+
         public static GameInput Instance { private set; get; }
 
         /// <summary>
@@ -270,6 +275,7 @@ namespace KitchenChaosTutorial
                     callback.Dispose();
                     playerInputActions.Player.Enable();
                     onBindingComplete?.Invoke();
+                    OnRebindingComplete?.Invoke(sender: this, EventArgs.Empty);
 
                     //Save input rebinding to player prefs
                     PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, value: inputAction.SaveBindingOverridesAsJson());

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 namespace KitchenChaosTutorial
@@ -40,6 +41,7 @@ namespace KitchenChaosTutorial
 
         public enum State
         {
+            WAITING_FOR_GAME_START,
             GAME_STARTING,
             GAME_PLAYING,
             GAME_OVER
@@ -76,20 +78,35 @@ namespace KitchenChaosTutorial
             {
                 Debug.LogError("There should be only one instance of GameManager");
             }
+
+
+            state = State.WAITING_FOR_GAME_START;
         }
 
         private void Start()
         {
-            state = State.GAME_STARTING;
-
             GameInput.Instance.OnPausePressed += GameInput_OnPause;
+            GameInput.Instance.OnInteract += GameInput_OnInteract;
         }
 
+        private void GameInput_OnInteract(object sender, EventArgs e)
+        {
+            if (this.IsWaitingForGameStart())
+            {
+                State newState = State.GAME_STARTING;
+                this.state = newState;
+                this.OnGameStateChanged?.Invoke(this, e: new GameStateChangedEventArgs { newState = newState });
+            }
+        }
 
         private void Update()
         {
             switch (state)
             {
+                case State.WAITING_FOR_GAME_START:
+                    {
+                        break;
+                    }
                 case State.GAME_STARTING:
                     {
                         this.gameStartingTimer -= Time.deltaTime;
@@ -134,6 +151,17 @@ namespace KitchenChaosTutorial
         {
             this.TogglePause();
         }
+
+        public bool IsWaitingForGameStart()
+        {
+            return this.state == State.WAITING_FOR_GAME_START;
+        }
+
+        public bool IsGameStarting()
+        {
+            return this.state == State.GAME_STARTING;
+        }
+
 
         /// <summary>
         /// Returns a value between 0 and 1 where 1 is at the beginning of the timer and 0 is at its end

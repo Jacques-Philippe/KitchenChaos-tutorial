@@ -23,10 +23,27 @@ namespace KitchenChaosTutorial
         // Start is called before the first frame update
         void Start()
         {
+            //On input rebound, update tutorial UI to match the new controller layout
+            GameInput.Instance.OnRebindingComplete += GameInput_OnRebindingComplete;
+            GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+
             //initialize all the text fields with the key bindings
             this.UpdateVisual();
 
             this.Show();
+        }
+
+        private void GameManager_OnGameStateChanged(object sender, GameManager.GameStateChangedEventArgs e)
+        {
+            if (GameManager.Instance.IsGameStarting())
+            {
+                this.Hide();
+            }
+        }
+
+        private void GameInput_OnRebindingComplete(object sender, System.EventArgs e)
+        {
+            this.UpdateVisual();
         }
 
         private void UpdateVisual()
