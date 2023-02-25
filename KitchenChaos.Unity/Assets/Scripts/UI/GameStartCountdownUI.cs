@@ -15,7 +15,13 @@ namespace KitchenChaosTutorial
         /// </summary>
         private const string NUMBER_ANIMATION = "NumberAnimation";
 
+        /// <summary>
+        /// A reference to the animator responsible for animating thec countdown text
+        /// </summary>
         private Animator animator;
+        /// <summary>
+        /// The value of the last integer representation of the countdown, to tell when the value's changed
+        /// </summary>
         private int lastTimerInt = -1;
 
         private void Start()
