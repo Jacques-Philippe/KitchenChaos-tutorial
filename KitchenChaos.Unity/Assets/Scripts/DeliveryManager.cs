@@ -76,26 +76,30 @@ namespace KitchenChaosTutorial
 
         private void Update()
         {
-            //if there are less than the max number of active recipes
-            if (GameManager.Instance.IsGameStarted() && waitingRecipes.Count < maxActiveRecipeAmount)
+            //Only create new orders for game is started
+            if (GameManager.Instance.IsGameStarted())
             {
-                //if recipe selection timer is greater than the delay
-                if (recipeSelectionTimer >= recipeSelectionDelay)
+                //if there are less than the max number of active recipes
+                if (waitingRecipes.Count < maxActiveRecipeAmount)
                 {
-                    //Choose a recipe
-                    RecipeSO recipe = recipeListSO.recipeSOList[UnityEngine.Random.Range(minInclusive: 0, maxExclusive: recipeListSO.recipeSOList.Count)];
-                    Debug.Log($"New order: {recipe.recipeName}");
+                    //if recipe selection timer is greater than the delay
+                    if (recipeSelectionTimer >= recipeSelectionDelay)
+                    {
+                        //Choose a recipe
+                        RecipeSO recipe = recipeListSO.recipeSOList[UnityEngine.Random.Range(minInclusive: 0, maxExclusive: recipeListSO.recipeSOList.Count)];
+                        Debug.Log($"New order: {recipe.recipeName}");
 
-                    //Add it to the list of currently waiting recipes
-                    this.waitingRecipes.Add(recipe);
-                    this.OnOrderAdded?.Invoke(this, EventArgs.Empty);
+                        //Add it to the list of currently waiting recipes
+                        this.waitingRecipes.Add(recipe);
+                        this.OnOrderAdded?.Invoke(this, EventArgs.Empty);
 
-                    recipeSelectionTimer = 0.0f;
-                }
-                //else the recipe selection timer is less than the delay
-                else
-                {
-                    recipeSelectionTimer += Time.deltaTime;
+                        recipeSelectionTimer = 0.0f;
+                    }
+                    //else the recipe selection timer is less than the delay
+                    else
+                    {
+                        recipeSelectionTimer += Time.deltaTime;
+                    }
                 }
             }
         }
