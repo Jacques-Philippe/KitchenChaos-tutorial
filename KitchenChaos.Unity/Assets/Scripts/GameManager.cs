@@ -11,15 +11,13 @@ namespace KitchenChaosTutorial
     public class GameManager : MonoBehaviour
     {
         /// <summary>
-        /// TODO delete me.<br />
         /// A debugging timer to keep track of the time since the game started
         /// </summary>
         private float gameStartedTimer = TIME_TO_PLAY_BEFORE_GAME_OVER;
         /// <summary>
-        /// TODO delete me.<br />
         /// A number of seconds to keep the game alive before ending it.
         /// </summary>
-        private const float TIME_TO_PLAY_BEFORE_GAME_OVER = 30.0f;
+        private const float TIME_TO_PLAY_BEFORE_GAME_OVER = 90.0f;
 
         /// <summary>
         /// A testing
