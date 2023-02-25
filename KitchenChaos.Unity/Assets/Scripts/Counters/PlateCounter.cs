@@ -32,24 +32,28 @@ namespace KitchenChaosTutorial
         /// </summary>
         public event EventHandler OnPlateTaken;
 
+
         //Spawn a plate every four seconds
         //Unless there are already four plates
 
         private void Update()
         {
-            if (mSpawnTimer >= mTimeToSpawnPlate)
+            if (GameManager.Instance.IsGameStarted())
             {
-                if (platesSpawned < platesToSpawn)
+                if (mSpawnTimer >= mTimeToSpawnPlate)
                 {
-                    mSpawnTimer = 0.0f;
-                    this.platesSpawned++;
+                    if (platesSpawned < platesToSpawn)
+                    {
+                        mSpawnTimer = 0.0f;
+                        this.platesSpawned++;
 
-                    this.OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+                        this.OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+                    }
                 }
-            }
-            else
-            {
-                mSpawnTimer += Time.deltaTime;
+                else
+                {
+                    mSpawnTimer += Time.deltaTime;
+                }
             }
         }
 
