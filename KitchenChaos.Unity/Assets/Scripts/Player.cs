@@ -142,39 +142,77 @@ namespace KitchenChaosTutorial
             }
         }
 
+        ///// <summary>
+        ///// A function to handle interaction treatment given player input <br />
+        ///// Sets the currently selected counter.
+        ///// </summary>
+        //private void HandleInteraction()
+        //{
+        //    //Get movement direction to find relevant interactable
+        //    Vector2 movementInput = mGameInput.GetPlayerMovementDirectionNormalized();
+
+        //    Vector3 movementDirection = new Vector3(movementInput.x, 0.0f, movementInput.y);
+
+        //    if (movementDirection != Vector3.zero)
+        //    {
+        //        this.mLastInteractionDirection = movementDirection;
+        //    }
+
+        //    float interactionRange = 2.0f;
+        //    //Find interactable via raycast in direction of last movement
+        //    if (Physics.Raycast(origin: this.transform.position, direction: mLastInteractionDirection, maxDistance: interactionRange, hitInfo: out RaycastHit raycastHit, layerMask: mCountersLayerMask))
+        //    {
+        //        //if we hit an interactable, invoke its interact function
+        //        if (raycastHit.transform.TryGetComponent<BaseCounter>(out BaseCounter counter))
+        //        {
+        //            this.SetSelectedCounter(newSelectedCounter: counter);
+        //        }
+        //        else
+        //        {
+        //            this.SetSelectedCounter(newSelectedCounter: null);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        this.SetSelectedCounter(newSelectedCounter: null);
+        //    }
+        //}
+
         /// <summary>
         /// A function to handle interaction treatment given player input <br />
         /// Sets the currently selected counter.
         /// </summary>
         private void HandleInteraction()
         {
-            //Get movement direction to find relevant interactable
-            Vector2 movementInput = mGameInput.GetPlayerMovementDirectionNormalized();
+            Vector2 inputVector = mGameInput.GetPlayerMovementDirectionNormalized();
 
-            Vector3 movementDirection = new Vector3(movementInput.x, 0.0f, movementInput.y);
+            Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
-            if (movementDirection != Vector3.zero)
+            if (moveDir != Vector3.zero)
             {
-                this.mLastInteractionDirection = movementDirection;
+                mLastInteractionDirection = moveDir;
             }
 
-            float interactionRange = 2.0f;
-            //Find interactable via raycast in direction of last movement
-            if (Physics.Raycast(origin: this.transform.position, direction: mLastInteractionDirection, maxDistance: interactionRange, hitInfo: out RaycastHit raycastHit, layerMask: mCountersLayerMask))
+            float interactDistance = 2f;
+            if (Physics.Raycast(transform.position, mLastInteractionDirection, out RaycastHit raycastHit, interactDistance, mCountersLayerMask))
             {
-                //if we hit an interactable, invoke its interact function
-                if (raycastHit.transform.TryGetComponent<BaseCounter>(out BaseCounter counter))
+                if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
                 {
-                    this.SetSelectedCounter(newSelectedCounter: counter);
+                    // Has ClearCounter
+                    if (baseCounter != this.mSelectedCounter)
+                    {
+                        SetSelectedCounter(baseCounter);
+                    }
                 }
                 else
                 {
-                    this.SetSelectedCounter(newSelectedCounter: null);
+                    SetSelectedCounter(null);
+
                 }
             }
             else
             {
-                this.SetSelectedCounter(newSelectedCounter: null);
+                SetSelectedCounter(null);
             }
         }
 
@@ -190,47 +228,105 @@ namespace KitchenChaosTutorial
             });
         }
 
+        ///// <summary>
+        ///// Helper to parse all incoming player movement input
+        ///// </summary>
+        //private void HandleMovement()
+        //{
+        //    Vector2 movementInput = mGameInput.GetPlayerMovementDirectionNormalized();
+
+        //    Vector3 movementDirection = new Vector3(movementInput.x, 0.0f, movementInput.y);
+        //    Vector3 faceDirection = movementDirection;
+
+        //    float movementDistance = this.mSpeed * Time.deltaTime;
+
+        //    if (Mathf.Abs(movementDirection.x) > 0.5f && IsPlayerMovementObstructed(movementDirection: movementDirection, movementDistance: movementDistance))
+        //    {
+        //        Vector3 movementDirectionX = new Vector3(movementDirection.x, 0.0f, 0.0f).normalized;
+
+        //        //if the player can move in X, move in X
+        //        if (!IsPlayerMovementObstructed(movementDirection: movementDirectionX, movementDistance))
+        //        {
+        //            movementDirection = movementDirectionX;
+        //        }
+        //        //else the player cannot move in X, so try to move in Z
+        //        else
+        //        {
+        //            Vector3 movementDirectionZ = new Vector3(0.0f, 0.0f, movementDirection.z).normalized;
+        //            //if the player can move in Z, move in Z
+        //            if (Mathf.Abs(movementDirection.z) > 0.5f && !IsPlayerMovementObstructed(movementDirection: movementDirectionZ, movementDistance: movementDistance))
+        //            {
+        //                movementDirection = movementDirectionZ;
+        //            }
+        //        }
+        //    }
+
+        //    this.IsWalking = movementDirection != Vector3.zero;
+
+        //    if (this.IsWalking)
+        //    {
+        //        this.OnMovement?.Invoke(sender: this, EventArgs.Empty);
+        //        this.transform.position += movementDirection * movementDistance;
+        //        this.transform.forward = Vector3.Lerp(this.transform.forward, faceDirection, mRotateSpeed * Time.deltaTime);
+        //    }
+        //}
+
         /// <summary>
         /// Helper to parse all incoming player movement input
         /// </summary>
         private void HandleMovement()
         {
-            Vector2 movementInput = mGameInput.GetPlayerMovementDirectionNormalized();
+            Vector2 inputVector = mGameInput.GetPlayerMovementDirectionNormalized();
 
-            Vector3 movementDirection = new Vector3(movementInput.x, 0.0f, movementInput.y);
-            Vector3 faceDirection = movementDirection;
+            Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
-            float movementDistance = this.mSpeed * Time.deltaTime;
+            float moveDistance = mSpeed * Time.deltaTime;
+            float playerRadius = .7f;
+            float playerHeight = 2f;
+            bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
 
-            if (Mathf.Abs(movementDirection.x) > 0.5f && IsPlayerMovementObstructed(movementDirection: movementDirection, movementDistance: movementDistance))
+            if (!canMove)
             {
-                Vector3 movementDirectionX = new Vector3(movementDirection.x, 0.0f, 0.0f).normalized;
+                // Cannot move towards moveDir
 
-                //if the player can move in X, move in X
-                if (!IsPlayerMovementObstructed(movementDirection: movementDirectionX, movementDistance))
+                // Attempt only X movement
+                Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
+                canMove = (moveDir.x < -.5f || moveDir.x > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+
+                if (canMove)
                 {
-                    movementDirection = movementDirectionX;
+                    // Can move only on the X
+                    moveDir = moveDirX;
                 }
-                //else the player cannot move in X, so try to move in Z
                 else
                 {
-                    Vector3 movementDirectionZ = new Vector3(0.0f, 0.0f, movementDirection.z).normalized;
-                    //if the player can move in Z, move in Z
-                    if (Mathf.Abs(movementDirection.z) > 0.5f && !IsPlayerMovementObstructed(movementDirection: movementDirectionZ, movementDistance: movementDistance))
+                    // Cannot move only on the X
+
+                    // Attempt only Z movement
+                    Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
+                    canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+
+                    if (canMove)
                     {
-                        movementDirection = movementDirectionZ;
+                        // Can move only on the Z
+                        moveDir = moveDirZ;
+                    }
+                    else
+                    {
+                        // Cannot move in any direction
                     }
                 }
             }
 
-            this.IsWalking = movementDirection != Vector3.zero;
-
-            if (this.IsWalking)
+            if (canMove)
             {
-                this.OnMovement?.Invoke(sender: this, EventArgs.Empty);
-                this.transform.position += movementDirection * movementDistance;
-                this.transform.forward = Vector3.Lerp(this.transform.forward, faceDirection, mRotateSpeed * Time.deltaTime);
+                transform.position += moveDir * moveDistance;
             }
+
+            IsWalking = moveDir != Vector3.zero;
+
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
         }
 
         /// <summary>
