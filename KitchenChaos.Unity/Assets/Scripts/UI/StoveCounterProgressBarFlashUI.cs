@@ -17,6 +17,8 @@ namespace KitchenChaosTutorial
             stoveCounter.OnProgressChanged += StoveCounter_OnProgressChanged;
             animator = GetComponent<Animator>();
 
+
+            this.animator.SetBool(ANIMATOR_IS_FLASHING, false);
         }
 
 
