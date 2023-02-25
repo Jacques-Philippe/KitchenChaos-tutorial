@@ -45,6 +45,8 @@ namespace KitchenChaosTutorial
                 if (timerInt != lastTimerInt)
                 {
                     animator.SetTrigger(NUMBER_ANIMATION);
+                    SoundManager.Instance.PlayCountdownSound();
+                    lastTimerInt = timerInt;
                 }
             }
 

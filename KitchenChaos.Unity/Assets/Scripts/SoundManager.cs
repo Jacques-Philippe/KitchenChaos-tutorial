@@ -102,6 +102,11 @@ namespace KitchenChaosTutorial
             this.PlaySound(clipArray: this.audioClipReferencesSO.footstep, position);
         }
 
+        public void PlayCountdownSound()
+        {
+            this.PlaySound(clipArray: audioClipReferencesSO.warning, Camera.main.transform.position);
+        }
+
         /// <summary>
         /// Helper to update the SFX volume externally by <paramref name="increment"/> <br />
         /// If <see cref="volume"/> exceeds 1, resets to 0.
