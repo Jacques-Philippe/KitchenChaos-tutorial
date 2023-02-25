@@ -104,7 +104,13 @@ namespace KitchenChaosTutorial
 
         public void PlayCountdownSound()
         {
-            this.PlaySound(clipArray: audioClipReferencesSO.warning, Camera.main.transform.position);
+            this.PlaySound(clipArray: audioClipReferencesSO.warning, Camera.main.transform.position, volumeMultiplier: 0.4f);
+        }
+
+        public void PlayWarningSound(Vector3 position)
+        {
+            //You barely hear this unless you put it in the camera
+            this.PlaySound(clipArray: audioClipReferencesSO.warning, position, volumeMultiplier: 0.3f);
         }
 
         /// <summary>
