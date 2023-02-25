@@ -8,19 +8,11 @@ namespace KitchenChaosTutorial
     public class StoveCounterWarningUI : MonoBehaviour
     {
         [SerializeField] private StoveCounter stoveCounter;
-        
-        /// <summary>
-        /// String identifier for the bool for the transition from idle to warning flash for the warning UI
-        /// </summary>
-        private const string ANIMATOR_SHOULD_FLASH = "shouldFlash";
-
-        private Animator animator;
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
-
             stoveCounter.OnProgressChanged += StoveCounter_OnProgressChanged;
+            this.Hide();
         }
 
 
@@ -33,11 +25,11 @@ namespace KitchenChaosTutorial
             float burnThreshold = 0.5f;
             if (stoveCounter.IsBurning() && e.normalizedProgress >= burnThreshold)
             {
-                this.animator.SetBool(ANIMATOR_SHOULD_FLASH, true);
+                this.Show();
             }
             else
             {
-                this.animator.SetBool(ANIMATOR_SHOULD_FLASH, false);
+                this.Hide();
             }
         }
 
