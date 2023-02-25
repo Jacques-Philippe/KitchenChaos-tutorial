@@ -10,9 +10,19 @@ namespace KitchenChaosTutorial
     {
         [SerializeField] private TextMeshProUGUI countdownText;
 
+        /// <summary>
+        /// The name of the trigger for the animation to play for each number changed
+        /// </summary>
+        private const string NUMBER_ANIMATION = "NumberAnimation";
+
+        private Animator animator;
+        private int lastTimerInt = -1;
+
         private void Start()
         {
-            GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged; ;
+            GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+
+            this.animator = GetComponent<Animator>();
 
             this.Show();
         }
@@ -29,7 +39,13 @@ namespace KitchenChaosTutorial
         {
             if (GameManager.Instance.state == GameManager.State.GAME_STARTING)
             {
-                countdownText.text = Mathf.Ceil(GameManager.Instance.GetGameStartingTimer()).ToString();
+                int timerInt = Mathf.CeilToInt(GameManager.Instance.GetGameStartingTimer());
+                countdownText.text = timerInt.ToString();
+                //if the number changed, fire the animation
+                if (timerInt != lastTimerInt)
+                {
+                    animator.SetTrigger(NUMBER_ANIMATION);
+                }
             }
 
         }
