@@ -20,9 +20,21 @@ namespace KitchenChaosTutorial
         /// </summary>
         public enum State
         {
+            /// <summary>
+            /// The state for nothing on the stove
+            /// </summary>
             Idle,
+            /// <summary>
+            /// The state for something added to the stove and cooking, but not yet cooked
+            /// </summary>
             Frying,
+            /// <summary>
+            /// The state for something cooked, and starting to burn
+            /// </summary>
             Burning,
+            /// <summary>
+            /// The state for something burned
+            /// </summary>
             Burned
         };
 
@@ -112,6 +124,7 @@ namespace KitchenChaosTutorial
                             this.burnRecipeSO = null;
                             this.state = State.Burned;
                             this.OnFoodBurned?.Invoke(this, EventArgs.Empty);
+                            this.OnProgressChanged?.Invoke(this, new IHasProgress.ProgressChangedEventArgs { normalizedProgress = 1 });
                         }
                         break;
                     }
@@ -177,6 +190,15 @@ namespace KitchenChaosTutorial
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Whether the stove is currently burning an item
+        /// </summary>
+        /// <returns></returns>
+        public bool IsBurning()
+        {
+            return this.state == State.Burning;
         }
 
         private void ResetStateForFoodRemoved()

@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67baccba6f9cf9478b7764133f14706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stoveCounter: {fileID: 410094926543681011}
 --- !u!1 &2883819011476554275
 GameObject:
   m_ObjectHideFlags: 0
